@@ -1,10 +1,13 @@
 import React from 'react'
 import BrailleDeco from '../components/BrailleDeco'
-import DownloadBrf from '../components/DownloadBrf'
 import NavBar from '../components/NavBar'
 import NewFileUpload from '../components/NewFileUploadButton'
+import DownloadButton from '../components/DownloadButton'
+import { useLocation } from 'react-router-dom';
 
-const DownloadPage = () => {
+
+
+const DownloadBrf = () => {
   return (
     <div className='w-full h-screen bg-stone-200'>
       <NavBar />
@@ -19,7 +22,7 @@ const DownloadPage = () => {
             <img src='/img/complete.png' />
           </div>
           <div className='w-auto h-auto m-auto align-middle flex flex-col items-center justify-center'>
-            <DownloadBrf />
+            <DownloadButton />
             <NewFileUpload />
           </div>
         </div>
@@ -29,4 +32,6 @@ const DownloadPage = () => {
   )
 }
 
-export default DownloadPage
+
+
+export default DownloadBrf

@@ -9,7 +9,7 @@ import axios from 'axios';
 
 const ConvertPage = () => {
   return (
-    <div className='w-full h-screen bg-stone-200'>
+    <div className='w-full h-screen relative bg-stone-200'>
         <NavBar />
             <div className='content box w-1/2 h-auto m-auto align-middle flex flex-col itmes-center justify-center'>
                 <div className='w-auto h-auto align-middle my-[180px]'>

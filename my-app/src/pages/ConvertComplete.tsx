@@ -4,7 +4,7 @@ import NavBar from '../components/NavBar'
 
 const ConvertComplete = () => {
   return (
-    <div className='w-full h-screen bg-stone-200'>
+    <div className='w-full h-full bg-stone-200'>
         <NavBar />
 
         <BrailleDeco />
