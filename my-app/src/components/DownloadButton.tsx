@@ -16,7 +16,7 @@ const DownloadButton = () => {
     const downloadFile = async (filename: string) => {
         try {
             // 장고 서버 URL 업데이트
-            const response = await fetch(`http://localhost:8000/media/brf_files/${filename}.brf`);
+            const response = await fetch(`http://54.180.106.239:8000/media/brf_files/${filename}.brf`);
             if (!response.ok) {
                 throw new Error('File not found on server');
             }

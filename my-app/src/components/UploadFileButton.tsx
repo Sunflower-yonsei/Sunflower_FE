@@ -46,7 +46,7 @@ const UploadFileButton: React.FC = () => {
       form_data.append('pdf_file', pdf, pdf.name);
     }
 
-    let url = 'http://localhost:8000/upload/posts/';
+    let url = 'http://54.180.106.239:8000/upload/posts/';
 
     axios
       .post(url, form_data, {

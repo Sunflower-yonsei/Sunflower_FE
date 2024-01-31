@@ -10,7 +10,7 @@ const ConvertButton = () => {
   const handleClick = async () => {
 
     try {
-      const response = await axios.post('http://localhost:8000/convert/', {
+      const response = await axios.post('http://54.180.106.239:8000/convert/', {
         // 필요한 경우 데이터를 전송할 수 있음
       });
       
