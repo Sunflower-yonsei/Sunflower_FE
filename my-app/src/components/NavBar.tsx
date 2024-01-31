@@ -7,7 +7,7 @@ import MainPage from '../pages/MainPage';
 const NavBar = () => {
     return (
         <div className="w-full h-[75px] relative bg-stone-200">
-            <div className="h-9 px-3 py-[7px] right-[-1050px] top-[24px] relative justify-center items-center gap-2.5 inline-flex">
+            <div className="h-9 px-3 py-[7px] right-[-950px] top-[24px] relative justify-center items-center gap-2.5 inline-flex">
                 <div className="text-neutral-800 text-opacity-50 text-[15px] font-normal font-['Pretendard'] leading-[15px]">Skip Navigation</div>
             </div>
             <div className="w-auto h-9 px-3 py-2.5 right-[330px] top-[24px] absolute justify-center items-center inline-flex">
