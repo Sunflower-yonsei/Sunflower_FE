@@ -68,7 +68,7 @@ const UploadFileButton: React.FC = () => {
       <div className="m-auto flex justify-center itmes-center flex-row">
         <label htmlFor="ex_file" className="cursor-pointer">
           <div>
-            <div className='w-[170px] h-[50px] bg-[#FF6A3F] mr-4 flex justify-center items-center'>
+            <div className='w-[170px] h-[50px] bg-[#FF6A3F] mr-4 flex justify-center items-center' aria-labelledby="fileLabel">
               <div className=" text-stone-200 text-base font-medium font-['Pretendard'] leading-none">1. 파일 선택하기</div>
             </div>
           </div>
@@ -79,6 +79,7 @@ const UploadFileButton: React.FC = () => {
           name="pdf_file"
           accept=".pdf"
           onChange={handlePdfChange}
+          aria-describedby="fileLabel"
           className="hidden"
         />
         <form onSubmit={handleFileUpload}>
