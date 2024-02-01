@@ -61,15 +61,17 @@ const UploadFileButton: React.FC = () => {
         navigate(`/download?fileName=${ID}`);
       })
       .catch(err => {
-        alert("문제 변환이 완료되지 않았습니다.\n다시 업로드하거나 다른 파일을 사용해주세요.")});
-    };
+        alert("문제 변환이 완료되지 않았습니다.\n다시 업로드하거나 다른 파일을 사용해주세요.")
+      });
+  };
   return (
     <div>
       <div className="m-auto flex justify-center itmes-center flex-row">
-        <label htmlFor="ex_file" className="cursor-pointer">
+        <label htmlFor="ex_file" className="cursor-pointer" aria-labelledby="fileLabel">
+          <span id="fileLabel" className="sr-only">파일 선택하기</span>
           <div>
-            <div className='w-[170px] h-[50px] bg-[#FF6A3F] mr-4 flex justify-center items-center' aria-labelledby="fileLabel">
-              <div className=" text-stone-200 text-base font-medium font-['Pretendard'] leading-none">1. 파일 선택하기</div>
+            <div className='w-[170px] h-[50px] bg-[#FF6A3F] mr-4 flex justify-center items-center'>
+              <div className="text-stone-200 text-base font-medium font-['Pretendard'] leading-none">1. 파일 선택하기</div>
             </div>
           </div>
         </label>
