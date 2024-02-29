@@ -1,7 +1,6 @@
-import React, { ChangeEvent, Component, FormEvent, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate, Route, Routes } from 'react-router-dom';
-import UploadComplete from '../pages/UploadComplete';
+import { useNavigate } from 'react-router-dom';
 
 
 interface UploadFileButtonState {
@@ -16,54 +15,92 @@ const UploadFileButton: React.FC = () => {
     content: '',
     pdf: null
   });
-
+  const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
 
-  const handlePdfChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files && e.target.files[0];
     if (selectedFile) {
       setState(prevState => ({ ...prevState, pdf: selectedFile }));
     }
   };
 
-  const handleFileUpload = (e: FormEvent<HTMLFormElement>) => {
+  const handleFileUpload = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (window.confirm("변환 하시겠습니까?\n변환할 경우 시간은 약 10초 소요됩니다.")) {
-      handleConversion();
-    }
-  };
 
-  const handleConversion = () => {
-    const { title, content, pdf } = state;
+    const { pdf } = state;
+
+    if (!pdf) {
+      alert("파일을 선택해주세요.");
+      return;
+    }
 
     let form_data = new FormData();
+    form_data.append('file', pdf, pdf.name);
 
-    function isFile(value: any): value is File {
-      return value instanceof File && typeof value.name === 'string';
-    }
+    let apiUrl = process.env.REACT_APP_API_URL;
+    let url = `${apiUrl}/translations`;
 
-    if (isFile(pdf) && pdf.name) {
-      form_data.append('pdf_file', pdf, pdf.name);
-    }
-
-    let url = 'http://54.180.106.239:8000/upload/posts/';
-
-    axios
-      .post(url, form_data, {
+    try {
+      const response = await axios.post(url, form_data, {
         headers: {
-          'content-type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data'
         }
-      })
+      });
+
+      if (response.status === 201) {
+        const locationHeader = response.headers['location'];
+        const translationsId = locationHeader.split('/').pop();
+
+        const confirmConversion = window.confirm(`파일 업로드가 완료되었습니다. 변환을 시작하시겠습니까?`);
+        if (confirmConversion && translationsId) {
+          startConversion(translationsId);
+        }
+      }
+    } catch (error) {
+      alert("파일 업로드에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
+
+  const startConversion = (translationsId: string) => {
+    let apiUrl = process.env.REACT_APP_API_URL;
+    let url = `${apiUrl}/translations/${translationsId}`;
+
+    // 변환 작업 시작
+    axios.get(url)
       .then(res => {
-        console.log('Successful', res.data);
-        var ID = res.data.pdf_file
-        ID = ID.replace('/media/pdf_files/', '')
-        navigate(`/download?fileName=${ID}`);
+        monitorConversionProgress(translationsId);
       })
       .catch(err => {
-        alert("문제 변환이 완료되지 않았습니다.\n다시 업로드하거나 다른 파일을 사용해주세요.")
+        alert("변환 시작 중 문제가 발생했습니다.");
       });
   };
+
+  const monitorConversionProgress = (translationsId: string) => {
+    let apiUrl = process.env.REACT_APP_API_URL;
+    let statusUrl = `${apiUrl}/translations/${translationsId}/status`;
+
+    // 변환 진행 상태 체크
+    const checkStatus = () => {
+      axios.get(statusUrl)
+        .then(res => {
+          const { status, progress } = res.data;
+          setProgress(progress);
+          if (status === 'completed') {
+            navigate(`/download/${translationsId}`);
+          } else if (status === 'failed') {
+            alert("변환에 실패했습니다.");
+          } else {
+            setTimeout(checkStatus, 500);
+          }
+        })
+        .catch(err => {
+          alert("진행 상태 확인 중 오류가 발생했습니다.");
+        });
+    };
+    checkStatus(); 
+  }
+
   return (
     <div>
       <div className="m-auto flex justify-center itmes-center flex-row">
@@ -93,6 +130,7 @@ const UploadFileButton: React.FC = () => {
             </div>
           </button>
         </form>
+        {progress > 0 && <div>변환 진행률: {progress}%</div>}
       </div>
 
 

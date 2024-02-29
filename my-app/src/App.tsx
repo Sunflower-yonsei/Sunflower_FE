@@ -12,7 +12,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* main page */}
-        <Route path="/" element={<MainPage />} />
+        <Route path="*" element={<MainPage />} />
 
         {/* convert page */}
         <Route path="/convert/*" element={<ConvertPage />} />
