@@ -1,0 +1,28 @@
+name: 🌻 Sunny Braille 클라이언트 CI 자동화 (Github Actions)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: ✔️ 레포지토리 가져오기
+      uses: actions/checkout@v2
+      
+    - name: ✔️ Node.js 설치
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: ✔️ dependencies 설치
+      run: npm install
+
+    - name: ✔️ Build 테스트
+      run: npm run build
+
+    - name: ✔️ Test 실행
+      run: npm test
