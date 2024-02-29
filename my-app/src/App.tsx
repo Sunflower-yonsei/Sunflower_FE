@@ -24,7 +24,7 @@ function App() {
         <Route path='/convert_completed' element={<ConvertComplete />} />
 
         {/* download page */}
-        <Route path='/download' element={<DownloadPage />} />
+        <Route path='/download/*' element={<DownloadPage />} />
 
       </Routes>
     </BrowserRouter>

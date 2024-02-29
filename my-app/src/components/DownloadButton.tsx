@@ -1,30 +1,28 @@
-import React from 'react'
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+
 
 const DownloadButton = () => {
-    // URL에서 파일 이름 추출
-    const getFileNameFromURL = () => {
-        const params = new URLSearchParams(window.location.search);
-        let fileName = params.get('fileName');
-        if (!fileName) {
-            return null;
-        }
-        // 파일 확장자 제거
-        fileName = fileName.split('.')[0];
-        return fileName;
-    };
+    const location = useLocation();
 
-    const downloadFile = async (filename: string) => {
+    const getFileIdFromURL = () => {
+        const params = new URLSearchParams(location.search);
+        return params.get('fileId'); // Extracts 'fileId' from the URL query parameters
+      };
+    
+    const downloadFile = async (fileId: string) => {
         try {
-            // 장고 서버 URL 업데이트
-            const response = await fetch(`http://54.180.106.239:8000/media/brf_files/${filename}.brf`);
+            const apiUrl = process.env.REACT_APP_API_URL
+            const response = await fetch(`${apiUrl}/translations/${fileId}`); // 파일 ID를 경로에 포함
             if (!response.ok) {
                 throw new Error('File not found on server');
             }
             const blob = await response.blob();
+            // Blob으로 파일 다운로드 생성
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
+            a.download = `${fileId}.brf`;
             a.href = url;
-            a.download = `${filename}.brf`;
             document.body.appendChild(a);
             a.click();
             a.remove();
@@ -35,22 +33,21 @@ const DownloadButton = () => {
     };
 
     const handleDownload = () => {
-        const fileName = getFileNameFromURL();
-        if (fileName) {
-            downloadFile(fileName);
+        const fileId = getFileIdFromURL();
+        if (fileId) {
+            downloadFile(fileId);
         } else {
-            console.error('No file name found in URL');
+            console.error('No file ID found in URL');
         }
     };
+
     return (
         <div>
-            <button onClick={handleDownload}>
-                <div className='w-[320px] h-[50px] bg-neutral-800 ml-4 mb-2 flex justify-center items-center'>
-                    <div className="text-stone-200 text-base font-medium font-['Pretendard'] leading-none">BRF 파일 다운로드</div>
-                </div>
+            <button onClick={handleDownload} className='w-[320px] h-[50px] bg-neutral-800 ml-4 mb-2 flex justify-center items-center'>
+                <div className="text-stone-200 text-base font-medium font-['Pretendard'] leading-none">BRF 파일 다운로드</div>
             </button>
         </div>
-    )
-}
+    );
+};
 
-export default DownloadButton
+export default DownloadButton;

@@ -23,7 +23,7 @@ const NavBar = () => {
             <Link to='/'>
                 <button className="w-auto h-[40px] left-[62px] top-[22px] absolute justify-center items-end gap-[6.45px] inline-flex">
                     <div className="w-[40px] h-10 relative">
-                        <img className="w-[37px] h-[37px] object-fill" src="img/mainlogo.svg" alt='group' />
+                        <img className="w-[38px] h-[38px] object-fill" src="img/mainlogo.svg" alt='group' />
                     </div>
                     <div className="text-neutral-800 text-xl text-left font-bold font-['Univers'] leading-[20px]">SUNNY <br />BRAILLE</div>
                 </button>
