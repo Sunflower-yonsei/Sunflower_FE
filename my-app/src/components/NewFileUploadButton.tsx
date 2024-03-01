@@ -14,7 +14,7 @@ const NewFileUpload = () => {
     <div>
       <Link to='/convert'>
         <button>
-          <div className='w-[320px] h-[36px] ml-4 border border-neutral-800 justify-center items-center gap-2.5 inline-flex'>
+          <div className='w-[320px] h-[36px] ml-4 border border-neutral-800 rounded justify-center items-center gap-2.5 inline-flex hover:bg-stone-400 transition duration-300 ease-in-out'>
             <div className={`${textClassName} text-neutral-800 text-base font-medium  leading-none`}>{language === "ko"
                     ? "다른 파일 변환하기"
                     : "Convert Another File"}</div>

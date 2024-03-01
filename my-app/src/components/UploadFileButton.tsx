@@ -90,7 +90,7 @@ const UploadFileButton: React.FC = () => {
             파일 선택하기
           </span>
           <div>
-            <div className="w-[170px] h-[50px] bg-[#FF6A3F] mr-4 flex justify-center items-center">
+            <div className="w-[170px] h-[50px] bg-[#FF6A3F] rounded mr-4 flex justify-center items-center hover:bg-[#FF9678] transition duration-300 ease-in-out">
               <div
                 className={`${textClassName} text-stone-200 text-base font-medium  leading-none`}
               >
@@ -111,7 +111,7 @@ const UploadFileButton: React.FC = () => {
         <form onSubmit={handleFileUpload}>
           <button
             type="submit"
-            className="w-[170px] h-[50px] bg-neutral-800 mr-4 flex justify-center items-center"
+            className="w-[170px] h-[50px] bg-neutral-800 rounded mr-4 flex justify-center items-center hover:bg-neutral-600 transition duration-300 ease-in-out"
           >
             <div>
               <div className="w-[170px] h-[50px] mr-auto flex justify-center items-center">

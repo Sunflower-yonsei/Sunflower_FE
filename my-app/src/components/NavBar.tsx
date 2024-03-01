@@ -28,7 +28,7 @@ const NavBar = () => {
 
             <Link
               to="/product"
-              className={`${textClassName} text-neutral-800 text-base font-normal px-3 py-2.5`}
+              className={`${textClassName} text-neutral-800 text-base font-normal px-3 py-2.5 link-underline hover:font-bold`}
             >
               {language === "ko"
                     ? "제품 소개"
@@ -36,7 +36,7 @@ const NavBar = () => {
             </Link>
             <Link
               to="/convert"
-              className={`${textClassName} text-neutral-800 text-base font-normal px-3 py-2.5`}
+              className={`${textClassName} text-neutral-800 text-base font-normal px-3 py-2.5 link-underline hover:font-bold`}
             >
               {language === "ko"
                     ? "파일 변환하기"
@@ -44,7 +44,7 @@ const NavBar = () => {
             </Link>
             <Link
               to="/help"
-              className={`${textClassName} text-neutral-800 text-base font-normal px-3 py-2.5`}
+              className={`${textClassName} text-neutral-800 text-base font-normal px-3 py-2.5 link-underline hover:font-bold`}
             >
               {language === "ko"
                     ? "도움말"
