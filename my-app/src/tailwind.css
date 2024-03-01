@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .link-underline {
+      @apply relative;
+      @apply inline-block;
+    }
+    .link-underline::after {
+      content: '';
+      @apply absolute;
+      @apply w-0;
+      @apply h-0.5;
+      @apply bg-neutral-800;
+      @apply bottom-0.5;
+      @apply left-1/2;
+      @apply transition-all;
+      @apply duration-300;
+    }
+    .link-underline:hover::after {
+      @apply w-full;
+      @apply left-0;
+    }
+  }
