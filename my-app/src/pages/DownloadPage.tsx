@@ -5,12 +5,15 @@ import NavBar from "../components/NavBar";
 import NewFileUpload from "../components/NewFileUploadButton";
 import DownloadButton from "../components/DownloadButton";
 import { useLocation } from "react-router-dom";
+import { useLanguage } from "../LanguageContext";
 
 const DownloadBrf = () => {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const fileId = query.get("fileId");
   const isMobile = useMediaQuery({ maxWidth: 768 });
+  const { language, toggleLanguage } = useLanguage();
+  const textClassName = language === "ko" ? "font-kor" : "font-eng";
 
   return (
     <div className="w-full h-screen bg-stone-200">
@@ -24,13 +27,27 @@ const DownloadBrf = () => {
           } h-auto flex flex-col items-center justify-center m-auto`}
         >
           <div className="w-auto h-auto">
-            <div className="text-neutral-800 m-auto font-kor text-center text-5xl font-semibold leading-[60px] tracking-wide">
-              파일 변환 완료!
+            <div
+              className={`${textClassName} text-neutral-800 m-auto text-center text-5xl font-semibold leading-[60px] tracking-wide`}
+            >
+              {language === "ko" ? "파일 변환 완료!" : "Convert Completed!"}
             </div>
-            <div className="text-center my-[20px] text-gray-700 font-kor text-base font-normal leading-[25px]">
-              파일 변환이 성공적으로 완성되었습니다.
-              <br />
-              파일 다운로드 버튼을 눌러 BRF 파일을 받아보세요!
+            <div
+              className={`${textClassName} text-center my-[20px] text-gray-700 text-base font-normal leading-[25px]`}
+            >
+              {language === "ko" ? (
+                <>
+                  파일 변환이 성공적으로 완성되었습니다.
+                  <br />
+                  파일 다운로드 버튼을 눌러 BRF 파일을 받아보세요!
+                </>
+              ) : (
+                <>
+                  File Convert Succeeded.
+                  <br />
+                  Press 'Download Brf' to download!
+                </>
+              )}
             </div>
             <div className="w-[90px] h-[130px] m-auto my-[30px] relative">
               <img src="/img/complete.png" alt="Conversion Complete" />

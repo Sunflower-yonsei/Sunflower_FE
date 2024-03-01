@@ -4,9 +4,12 @@ import NavBar from "../components/NavBar";
 import BrailleDeco from "../components/BrailleDeco";
 import "../tailwind.css";
 import ConvertPageRoutingButton from "../components/ConvertPageRoutingButton";
+import { useLanguage } from "../LanguageContext";
 
 const MainPage = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
+  const { language, toggleLanguage } = useLanguage();
+  const textClassName = language === 'ko' ? 'font-kor' : 'font-eng';
 
   return (
     <div>
@@ -20,11 +23,13 @@ const MainPage = () => {
           {isMobile && (
             <div className="relative text-center flex justify-center items-center h-[300px] bg-[#FF6A3F]">
               <div className="z-10 text-neutral-800">
-                <div className="text-6xl font-bold font-eng leading-[72px]">
+                <div className={`${textClassName} text-6xl font-bold leading-[72px]`}>
                   SUNNY BRAILLE
                 </div>
-                <div className="text-base font-kor mt-4">
-                  모바일에서도 최적의 경험을 제공합니다.
+                <div className={`${textClassName} text-base mt-4`}>
+                  {language === "ko"
+                    ? "모바일에서도 최적의 경험을 제공합니다."
+                    : "Provides the best experience on mobile as well."}
                 </div>
               </div>
               <img
@@ -39,23 +44,24 @@ const MainPage = () => {
           {!isMobile && (
             <div>
               <div className="w-auto h-[72px] top-[200px] left-[150px] absolute">
-                <div className="SunnyBraille text-neutral-800 text-6xl font-bold font-eng leading-[72px] tracking-wide">
+                <div className={`SunnyBraille font-eng text-neutral-800 text-6xl font-bold leading-[72px] tracking-wide`}>
                   SUNNY BRAILLE
                 </div>
               </div>
               <div className="w-auto h-[72px] top-[290px] left-[150px] absolute">
-                <div className="w-[926px] text-neutral-800 text-2xl font-semibold font-kor leading-[18.90px]">
-                  Sunny Braille은 해바라기팀이 개발한 교육용 웹 점역 소프트웨어
-                  입니다.{" "}
+                <div className={`${textClassName} w-[926px] text-neutral-800 text-2xl font-semibold leading-[18.90px]`}>
+                  {language === "ko"
+                    ? "Sunny Braille은 해바라기팀이 개발한 교육용 웹 점역 소프트웨어 입니다."
+                    : "Sunny Braille is an educational web braille software developed by Haebaragi team."}
                 </div>
               </div>
               <div className="w-auto h-auto top-[350px] left-[150px] absolute">
-                <div className="w-[926px] text-neutral-800 text-base font-normal font-kor leading-9">
-                  Sunny Braille은 텍스트 뿐만 수식도 점역해 낼 수 있는 수학에
-                  특화된 점역 프로그램입니다.
-                  <br />
-                  해바라기 팀은 고객님이 쉽고 빠르게 원하는 교육 자료를 점역하고{" "}
-                  <br />더 많은 교육 자료의 접근성을 높이려 노력하고 있습니다.
+                <div className={`${textClassName} w-[926px] text-neutral-800 text-base font-normal leading-9`}>
+                  {language === "ko"
+                    ? (<>Sunny Braille은 텍스트 뿐만 수식도 점역해 낼 수 있는 수학에 특화된 점역 프로그램입니다.<br/>
+        해바라기 팀은 고객님이 쉽고 빠르게 원하는 교육 자료를 점역하고 더 많은 교육 자료의 접근성을 높이려 노력하고 있습니다.</>)
+                    : (<>Sunny Braille is a transcription program specialized in mathematics that can transcribe not only text but also formulas.<br/>
+        The Sunflower team strives to quickly transcribe the educational materials you want and increase accessibility to more educational materials.</>)}
                 </div>
               </div>
               <div className="w-[650px] h-[650px] top-[150px] left-[630px] relative overflow-hidden">
@@ -67,12 +73,12 @@ const MainPage = () => {
 
         <div className="w-auto h-auto top-[80px] flex flex-col justify-center relative">
           <ConvertPageRoutingButton />
-          <div className="text-center text-gray-700 text-base font-normal font-kor my-[20px] leading-[37px]">
-            원하는 교육 자료 파일을 업로드해 점자로
-            변환해보세요.
-            <br />
-            변환된 파일을 다운로드 한 후 점자정보단말기에 읽힐 수 있습니다.
-            <br />
+          <div className={`${textClassName} text-center text-gray-700 text-base font-normal  my-[20px] leading-[37px]`}>
+            {language === "ko"
+              ? (<>원하는 교육 자료 파일을 업로드해 점자로 변환해보세요.<br/>
+        변환된 파일을 다운로드 한 후 점자정보단말기에 읽힐 수 있습니다.</>)
+              : (<>Upload the educational material file you want and convert it into Braille.<br/>
+        Download the converted file and read it on a Braille information terminal.</>)}
           </div>
         </div>
       </div>

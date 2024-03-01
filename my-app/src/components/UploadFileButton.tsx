@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import TranslationProgress from "./TranslationProgress";
+import { useLanguage } from "../LanguageContext";
+import messages from "./Messages"; // 메시지 설정 파일의 실제 경로에 맞게 조정
 
 interface UploadFileButtonState {
   title: string;
@@ -9,6 +11,9 @@ interface UploadFileButtonState {
 }
 
 const UploadFileButton: React.FC = () => {
+  const { language, toggleLanguage } = useLanguage();
+  const textClassName = language === "ko" ? "font-kor" : "font-eng";
+  const { fileSelectAlert, uploadSuccess, uploadFail } = messages[language];
   const [state, setState] = useState<UploadFileButtonState>({
     title: "",
     content: "",
@@ -16,7 +21,9 @@ const UploadFileButton: React.FC = () => {
   });
   const [translationsId, setTranslationsId] = useState<string | null>(null);
 
-  {/* Getting PDF Info. */}
+  {
+    /* Getting PDF Info. */
+  }
   const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files && e.target.files[0];
     if (selectedFile) {
@@ -24,14 +31,16 @@ const UploadFileButton: React.FC = () => {
     }
   };
 
-  {/* File Upload Alert */}
+  {
+    /* File Upload Alert */
+  }
   const handleFileUpload = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const { pdf } = state;
 
     if (!pdf) {
-      alert("파일을 선택해주세요.");
+      alert(fileSelectAlert);
       return;
     }
 
@@ -52,19 +61,19 @@ const UploadFileButton: React.FC = () => {
         const locationHeader = response.headers["location"];
         const translationsId = locationHeader.split("/").pop();
 
-        const confirmConversion = window.confirm(
-          `${translationsId} 파일 업로드가 완료되었습니다. 변환을 시작하시겠습니까?`
-        );
+        const confirmConversion = window.confirm(uploadSuccess(translationsId));
         if (confirmConversion && translationsId) {
           startConversion(translationsId);
         }
       }
     } catch (error) {
-      alert("파일 업로드에 실패했습니다. 다시 시도해주세요.");
+      alert(uploadFail);
     }
   };
 
-  { /* Store the ID to trigger rendering the progress component */ }
+  {
+    /* Store the ID to trigger rendering the progress component */
+  }
   const startConversion = (translationsId: string) => {
     setTranslationsId(translationsId);
   };
@@ -82,8 +91,10 @@ const UploadFileButton: React.FC = () => {
           </span>
           <div>
             <div className="w-[170px] h-[50px] bg-[#FF6A3F] mr-4 flex justify-center items-center">
-              <div className="text-stone-200 text-base font-medium font-kor leading-none">
-                1. 파일 선택하기
+              <div
+                className={`${textClassName} text-stone-200 text-base font-medium  leading-none`}
+              >
+                {language === "ko" ? "1. 파일 선택하기" : "1. Select File"}
               </div>
             </div>
           </div>
@@ -104,8 +115,10 @@ const UploadFileButton: React.FC = () => {
           >
             <div>
               <div className="w-[170px] h-[50px] mr-auto flex justify-center items-center">
-                <div className=" text-stone-200 text-base font-medium font-kor leading-none">
-                  2. 파일 업로드하기
+                <div
+                  className={`${textClassName} text-stone-200 text-base font-medium  leading-none`}
+                >
+                  {language === "ko" ? "2. 파일 업로드하기" : "2. Upload File"}
                 </div>
               </div>
             </div>

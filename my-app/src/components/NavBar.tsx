@@ -3,9 +3,14 @@ import "../tailwind.css";
 import { Link, Route, Routes } from "react-router-dom";
 import MainPage from "../pages/MainPage";
 import { useMediaQuery } from "react-responsive";
+import LanguageToggleButton from "./LanguageToggleButton";
+import { useLanguage } from "../LanguageContext";
+
 
 const NavBar = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
+  const { language, toggleLanguage } = useLanguage();
+  const textClassName = language === 'ko' ? 'font-kor' : 'font-eng';
 
   return (
     <div className="w-full h-[75px] relative bg-stone-200">
@@ -13,6 +18,7 @@ const NavBar = () => {
       {!isMobile && (
         <div>
           <div className="absolute right-10 top-[24px] flex items-center gap-4">
+            <LanguageToggleButton />
             <a
               href="#mainContent"
               className="text-neutral-800 text-opacity-50 text-sm font-normal font-eng leading-4 px-3 py-2.5 bg-transparent rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-stone-200 focus:ring-white"
@@ -22,21 +28,27 @@ const NavBar = () => {
 
             <Link
               to="/product"
-              className="text-neutral-800 text-base font-kor font-normal px-3 py-2.5"
+              className={`${textClassName} text-neutral-800 text-base font-normal px-3 py-2.5`}
             >
-              제품 소개
+              {language === "ko"
+                    ? "제품 소개"
+                    : "Introduction"}
             </Link>
             <Link
               to="/convert"
-              className="text-neutral-800 text-base font-kor font-medium px-3 py-2.5"
+              className={`${textClassName} text-neutral-800 text-base font-normal px-3 py-2.5`}
             >
-              파일 변환하기
+              {language === "ko"
+                    ? "파일 변환하기"
+                    : "Convert File"}
             </Link>
             <Link
               to="/help"
-              className="text-neutral-800 text-base font-kor font-medium px-3 py-2.5"
+              className={`${textClassName} text-neutral-800 text-base font-normal px-3 py-2.5`}
             >
-              도움말
+              {language === "ko"
+                    ? "도움말"
+                    : "Help"}
             </Link>
           </div>
           <Link to="/">
