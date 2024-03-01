@@ -12,7 +12,7 @@ const DownloadBrf = () => {
   const query = new URLSearchParams(location.search);
   const fileId = query.get("fileId");
   const isMobile = useMediaQuery({ maxWidth: 768 });
-  const { language, toggleLanguage } = useLanguage();
+  const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
 
   return (

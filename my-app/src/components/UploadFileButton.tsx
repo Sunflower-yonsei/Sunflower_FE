@@ -11,7 +11,7 @@ interface UploadFileButtonState {
 }
 
 const UploadFileButton: React.FC = () => {
-  const { language, toggleLanguage } = useLanguage();
+  const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
   const { fileSelectAlert, uploadSuccess, uploadFail } = messages[language];
   const [state, setState] = useState<UploadFileButtonState>({
@@ -21,9 +21,7 @@ const UploadFileButton: React.FC = () => {
   });
   const [translationsId, setTranslationsId] = useState<string | null>(null);
 
-  {
-    /* Getting PDF Info. */
-  }
+  // Getting PDF Info.
   const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files && e.target.files[0];
     if (selectedFile) {
@@ -31,9 +29,7 @@ const UploadFileButton: React.FC = () => {
     }
   };
 
-  {
-    /* File Upload Alert */
-  }
+  // File Upload Alert
   const handleFileUpload = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -71,9 +67,7 @@ const UploadFileButton: React.FC = () => {
     }
   };
 
-  {
-    /* Store the ID to trigger rendering the progress component */
-  }
+  // Store the ID to trigger rendering the progress component
   const startConversion = (translationsId: string) => {
     setTranslationsId(translationsId);
   };

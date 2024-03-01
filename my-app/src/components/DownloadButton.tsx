@@ -6,7 +6,7 @@ import { useLanguage } from "../LanguageContext";
 
 const DownloadButton = () => {
     const location = useLocation();
-    const { language, toggleLanguage } = useLanguage();
+    const { language } = useLanguage();
     const textClassName = language === 'ko' ? 'font-kor' : 'font-eng';
 
     const getFileIdFromURL = () => {

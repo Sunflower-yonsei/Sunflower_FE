@@ -8,7 +8,7 @@ import { useLanguage } from "../LanguageContext";
 
 const MainPage = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
-  const { language, toggleLanguage } = useLanguage();
+  const { language } = useLanguage();
   const textClassName = language === 'ko' ? 'font-kor' : 'font-eng';
 
   return (
@@ -65,7 +65,7 @@ const MainPage = () => {
                 </div>
               </div>
               <div className="w-[650px] h-[650px] top-[150px] left-[630px] relative overflow-hidden">
-                <img src="img/bannerlogo.png" />
+                <img src="img/bannerlogo.png" alt=""  />
               </div>
             </div>
           )}
