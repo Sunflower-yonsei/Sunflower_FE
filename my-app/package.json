@@ -47,6 +47,9 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/preset-env": "^7.24.0",
+    "@babel/preset-react": "^7.23.3",
+    "@babel/preset-typescript": "^7.23.3",
     "@types/jest": "^29.5.12",
     "@types/styled-components": "^5.1.30",
     "autoprefixer": "^10.4.16",
