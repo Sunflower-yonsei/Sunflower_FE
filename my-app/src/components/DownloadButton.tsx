@@ -13,7 +13,7 @@ const DownloadButton = () => {
     const downloadFile = async (fileId: string) => {
         try {
             const apiUrl = process.env.REACT_APP_API_URL
-            const response = await fetch(`${apiUrl}/translations/${fileId}`); // 파일 ID를 경로에 포함
+            const response = await fetch(`${apiUrl}/translations/${fileId}`); 
             if (!response.ok) {
                 throw new Error('File not found on server');
             }
@@ -44,7 +44,7 @@ const DownloadButton = () => {
     return (
         <div>
             <button onClick={handleDownload} className='w-[320px] h-[50px] bg-neutral-800 ml-4 mb-2 flex justify-center items-center'>
-                <div className="text-stone-200 text-base font-medium font-['Pretendard'] leading-none">BRF 파일 다운로드</div>
+                <div className="text-stone-200 text-base font-medium font-kor leading-none">BRF 파일 다운로드</div>
             </button>
         </div>
     );

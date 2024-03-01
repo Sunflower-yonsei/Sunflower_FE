@@ -16,6 +16,7 @@ const UploadFileButton: React.FC = () => {
   });
   const [translationsId, setTranslationsId] = useState<string | null>(null);
 
+  {/* Getting PDF Info. */}
   const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files && e.target.files[0];
     if (selectedFile) {
@@ -23,6 +24,7 @@ const UploadFileButton: React.FC = () => {
     }
   };
 
+  {/* File Upload Alert */}
   const handleFileUpload = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -51,7 +53,7 @@ const UploadFileButton: React.FC = () => {
         const translationsId = locationHeader.split("/").pop();
 
         const confirmConversion = window.confirm(
-          `파일 업로드가 완료되었습니다. 변환을 시작하시겠습니까?`
+          `${translationsId} 파일 업로드가 완료되었습니다. 변환을 시작하시겠습니까?`
         );
         if (confirmConversion && translationsId) {
           startConversion(translationsId);
@@ -62,8 +64,9 @@ const UploadFileButton: React.FC = () => {
     }
   };
 
+  { /* Store the ID to trigger rendering the progress component */ }
   const startConversion = (translationsId: string) => {
-    setTranslationsId(translationsId); // Store the ID to trigger rendering the progress component
+    setTranslationsId(translationsId);
   };
 
   return (
@@ -79,7 +82,7 @@ const UploadFileButton: React.FC = () => {
           </span>
           <div>
             <div className="w-[170px] h-[50px] bg-[#FF6A3F] mr-4 flex justify-center items-center">
-              <div className="text-stone-200 text-base font-medium font-['Pretendard'] leading-none">
+              <div className="text-stone-200 text-base font-medium font-kor leading-none">
                 1. 파일 선택하기
               </div>
             </div>
@@ -101,7 +104,7 @@ const UploadFileButton: React.FC = () => {
           >
             <div>
               <div className="w-[170px] h-[50px] mr-auto flex justify-center items-center">
-                <div className=" text-stone-200 text-base font-medium font-['Pretendard'] leading-none">
+                <div className=" text-stone-200 text-base font-medium font-kor leading-none">
                   2. 파일 업로드하기
                 </div>
               </div>

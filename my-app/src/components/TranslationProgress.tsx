@@ -23,12 +23,11 @@ const TranslationProgress: React.FC<TranslationProgressProps> = ({ translationsI
           setOcrProgress(data.ocrPercentDone);
           setBrailleProgress(data.brailleTranslationPercentDone);
   
-          // Navigate to download page if both processes are completed
-          // if (data.ocrStatus === "COMPLETED" && data.brailleTranslationsStatus === "COMPLETED") {
+          {/* Navigate to download page if both processes are completed */}
+          {/* if (data.ocrStatus === "COMPLETED" && data.brailleTranslationsStatus === "COMPLETED") { */}
             if (data.ocrStatus === "COMPLETED") {
             navigate(`/download?fileId=${translationsId}`);
           } else {
-            // Re-check status after a delay if either process is not completed
             setTimeout(checkStatus, 1000);
           }
         } catch (error) {

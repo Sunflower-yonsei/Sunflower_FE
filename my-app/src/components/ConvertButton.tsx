@@ -10,15 +10,12 @@ const ConvertButton = () => {
   const handleClick = async () => {
 
     try {
-      const response = await axios.post('http://54.180.106.239:8000/convert/', {
-        // 필요한 경우 데이터를 전송할 수 있음
+      const response = await axios.post('convert/', {
       });
       
-      // Django에서 받은 응답에 대한 처리
-      console.log(response.data); // 받은 데이터를 콘솔에 출력하는 등의 처리
-      // 페이지 전환 또는 추가 작업 수행
+      console.log(response.data); 
     } catch (error) {
-      // 오류 처리
+
       console.error('Error:', error);
       navigate('/download');
     }
