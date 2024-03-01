@@ -16,7 +16,7 @@ const UploadComplete = () => {
                         파일을 BRF 형식으로 변환하기 위해 변환 버튼을 눌러주세요.
                     </div>
                     <div className='w-[90px] h-[130px] m-auto my-[30px] relative'>
-                        <img src='/img/uploadedfile.png' />
+                        <img src='/img/uploadedfile.png' alt="" />
                     </div>
                 <div className = 'w-auto h-auto m-auto align-middle flex flex-col items-center justify-center'>
                     <ConvertButton />
