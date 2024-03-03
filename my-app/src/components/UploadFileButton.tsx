@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import TranslationProgress from "./TranslationProgress";
 import { useLanguage } from "../LanguageContext";
-import messages from "./Messages"; // 메시지 설정 파일의 실제 경로에 맞게 조정
+import messages from "./Messages";
+import { useHighContrast } from "../components/HighContrastMode";
 
 interface UploadFileButtonState {
   title: string;
@@ -13,6 +14,8 @@ interface UploadFileButtonState {
 const UploadFileButton: React.FC = () => {
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
+  const { isHighContrast } = useHighContrast();
+
   const { fileSelectAlert, uploadSuccess, uploadFail } = messages[language];
   const [state, setState] = useState<UploadFileButtonState>({
     title: "",
@@ -84,9 +87,17 @@ const UploadFileButton: React.FC = () => {
             파일 선택하기
           </span>
           <div>
-            <div className="w-[170px] h-[50px] bg-[#FF6A3F] rounded mr-4 flex justify-center items-center hover:bg-[#FF9678] transition duration-300 ease-in-out">
+            <div
+              className={`w-[170px] h-[50px] ${
+                isHighContrast
+                  ? "bg-yellow-300 hover:bg-yellow-600"
+                  : "bg-[#FF6A3F] hover:bg-[#E6552F]"
+              } rounded mr-4 flex justify-center items-center transition duration-300 ease-in-out`}
+            >
               <div
-                className={`${textClassName} text-stone-200 text-base font-medium  leading-none`}
+                className={`${textClassName} ${
+                  isHighContrast ? "text-neutral-800" : "text-white" 
+                } text-base font-medium  leading-none`}
               >
                 {language === "ko" ? "1. 파일 선택하기" : "1. Select File"}
               </div>
@@ -105,12 +116,18 @@ const UploadFileButton: React.FC = () => {
         <form onSubmit={handleFileUpload}>
           <button
             type="submit"
-            className="w-[170px] h-[50px] bg-neutral-800 rounded mr-4 flex justify-center items-center hover:bg-neutral-600 transition duration-300 ease-in-out"
+            className={`w-[170px] h-[50px] ${
+              isHighContrast
+                ? "bg-yellow-300 hover:bg-yellow-600"
+                : "bg-stone-800 hover:bg-stone-600"
+            } rounded mr-4 flex justify-center items-center hover:bg-neutral-600 transition duration-300 ease-in-out`}
           >
             <div>
               <div className="w-[170px] h-[50px] mr-auto flex justify-center items-center">
                 <div
-                  className={`${textClassName} text-stone-200 text-base font-medium  leading-none`}
+                  className={`${textClassName} ${
+                    isHighContrast ? "text-stone-800" : "text-white"
+                  } text-base font-medium  leading-none`}
                 >
                   {language === "ko" ? "2. 파일 업로드하기" : "2. Upload File"}
                 </div>

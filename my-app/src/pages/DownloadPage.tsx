@@ -6,6 +6,8 @@ import NewFileUpload from "../components/NewFileUploadButton";
 import DownloadButton from "../components/DownloadButton";
 import { useLocation } from "react-router-dom";
 import { useLanguage } from "../LanguageContext";
+import { useHighContrast } from "../components/HighContrastMode";
+
 
 const DownloadBrf = () => {
   const location = useLocation();
@@ -14,12 +16,16 @@ const DownloadBrf = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
+  const { isHighContrast } = useHighContrast();
+
 
   return (
-    <div className="w-full h-screen bg-stone-200">
+    <div className={`w-full h-screen bg-stone-200`}>
       <NavBar />
       <div
-        className={`w-full h-screen flex items-center justify-center bg-stone-200`}
+        className={`w-full h-screen flex items-center justify-center ${
+          isHighContrast ? "bg-black" : "bg-stone-200"
+        }`}
       >
         <div
           className={`content box ${
@@ -28,12 +34,16 @@ const DownloadBrf = () => {
         >
           <div className="w-auto h-auto">
             <div
-              className={`${textClassName} text-neutral-800 m-auto text-center text-5xl font-semibold leading-[60px] tracking-wide`}
+              className={`${textClassName} ${
+                isHighContrast ? "text-yellow-300" : "text-neutral-800"
+              } m-auto text-center text-5xl font-semibold leading-[60px] tracking-wide`}
             >
               {language === "ko" ? "파일 변환 완료!" : "Convert Completed!"}
             </div>
             <div
-              className={`${textClassName} text-center my-[20px] text-gray-700 text-base font-normal leading-[25px]`}
+              className={`${textClassName} ${
+                isHighContrast ? "text-yellow-300" : "text-neutral-800"
+              } text-center my-[20px] text-base font-normal leading-[25px]`}
             >
               {language === "ko" ? (
                 <>
@@ -51,7 +61,9 @@ const DownloadBrf = () => {
             </div>
             <div className="w-[90px] h-[130px] m-auto my-[30px] relative">
               <img src="/img/complete.png" alt="Conversion Complete" />
-              <div className="text-center my-[20px] text-gray-700 text-base font-normal leading-[25px]">
+              <div className={`text-center my-[20px] ${
+                    isHighContrast ? "text-yellow-300" : "text-neutral-800"
+                  } text-base font-normal leading-[25px]`}>
                 {fileId}.brf
               </div>
             </div>

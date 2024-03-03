@@ -5,30 +5,36 @@ import MainPage from "../pages/MainPage";
 import { useMediaQuery } from "react-responsive";
 import LanguageToggleButton from "./LanguageToggleButton";
 import { useLanguage } from "../LanguageContext";
+import ContrastToggleButton from "./ContrastToggleButton";
+import { useHighContrast } from './HighContrastMode';
 
 
 const NavBar = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const { language } = useLanguage();
   const textClassName = language === 'ko' ? 'font-kor' : 'font-eng';
+  const { isHighContrast } = useHighContrast();
+  
+
 
   return (
-    <div className="w-full h-[75px] relative bg-stone-200">
+    <div className={`w-full h-[75px] relative ${isHighContrast ? 'bg-black' :  'bg-stone-200' }`}>
       {/* Computer Page */}
       {!isMobile && (
         <div>
           <div className="absolute right-10 top-[24px] flex items-center gap-4">
+            <ContrastToggleButton />
             <LanguageToggleButton />
             <a
               href="#mainContent"
-              className="text-neutral-800 text-opacity-50 text-sm font-normal font-eng leading-4 px-3 py-2.5 bg-transparent rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-stone-200 focus:ring-white"
+              className={`${isHighContrast ? 'text-yellow-300': 'text-neutral-800  text-opacity-50' } text-sm font-normal font-eng leading-4 px-3 py-2.5 bg-transparent rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-stone-200 focus:ring-white `}
             >
               Skip Navigation
             </a>
 
             <Link
               to="/product"
-              className={`${textClassName} text-neutral-800 text-base font-normal px-3 py-2.5 link-underline hover:font-bold`}
+              className={`${textClassName} ${isHighContrast ? 'text-yellow-300': 'text-neutral-800'} text-base font-normal px-3 py-2.5 link-underline hover:font-bold`}
             >
               {language === "ko"
                     ? "제품 소개"
@@ -36,7 +42,7 @@ const NavBar = () => {
             </Link>
             <Link
               to="/convert"
-              className={`${textClassName} text-neutral-800 text-base font-normal px-3 py-2.5 link-underline hover:font-bold`}
+              className={`${textClassName} ${isHighContrast ? 'text-yellow-300': 'text-neutral-800'}  text-base font-normal px-3 py-2.5 link-underline hover:font-bold`}
             >
               {language === "ko"
                     ? "파일 변환하기"
@@ -44,7 +50,7 @@ const NavBar = () => {
             </Link>
             <Link
               to="/help"
-              className={`${textClassName} text-neutral-800 text-base font-normal px-3 py-2.5 link-underline hover:font-bold`}
+              className={`${textClassName} ${isHighContrast ? 'text-yellow-300': 'text-neutral-800'}  text-base font-normal px-3 py-2.5 link-underline hover:font-bold`}
             >
               {language === "ko"
                     ? "도움말"
@@ -60,7 +66,7 @@ const NavBar = () => {
                   alt="group"
                 />
               </div>
-              <div className="text-neutral-800 text-xl text-left font-bold font-eng leading-[20px]">
+              <div className={`${isHighContrast ? 'text-yellow-300': 'text-neutral-800'}  text-xl text-left font-bold font-eng leading-[20px]`}>
                 SUNNY <br />
                 BRAILLE
               </div>
@@ -81,7 +87,7 @@ const NavBar = () => {
                   alt="group"
                 />
               </div>
-              <div className="text-neutral-800 text-xl text-left font-bold font-['Univers'] leading-[20px]">
+              <div className={`${isHighContrast ? 'text-yellow-300': 'text-neutral-800'}  text-xl text-left font-bold font-['Univers'] leading-[20px]`}>
                 SUNNY <br />
                 BRAILLE
               </div>

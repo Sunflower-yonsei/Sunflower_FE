@@ -5,14 +5,20 @@ import BrailleDeco from "../components/BrailleDeco";
 import UploadFileButton from "../components/UploadFileButton";
 import "../tailwind.css";
 import { useLanguage } from "../LanguageContext";
+import { useHighContrast } from "../components/HighContrastMode";
 
 const ConvertPage = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
+  const { isHighContrast } = useHighContrast();
 
   return (
-    <div className="w-full h-screen relative bg-stone-200">
+    <div
+      className={`w-full h-screen relative ${
+        isHighContrast ? "bg-black" : "bg-stone-200"
+      }`}
+    >
       <NavBar />
       <div
         className={`content box w-full ${
@@ -21,12 +27,16 @@ const ConvertPage = () => {
       >
         <div className="w-auto h-auto align-middle my-[180px]">
           <div
-            className={`${textClassName} text-neutral-800 m-auto text-center text-5xl font-semibold leading-[60px] tracking-wide`}
+            className={`${textClassName} ${
+              isHighContrast ? "text-yellow-300" : "text-neutral-800"
+            }  m-auto text-center text-5xl font-semibold leading-[60px] tracking-wide`}
           >
             {language === "ko" ? "파일 변환하기" : "Convert File"}
           </div>
           <div
-            className={`${textClassName} my-[20px] text-gray-700 text-center text-base font-normal leading-[25px]`}
+            className={`${textClassName} ${
+              isHighContrast ? "text-yellow-300" : "text-neutral-800"
+            } my-[20px] text-center text-base font-normal leading-[25px]`}
           >
             {language === "ko" ? (
               <>
@@ -49,7 +59,9 @@ const ConvertPage = () => {
           </div>
           <div className="w-auto h-auto my-[40px]">
             <div
-              className={`${textClassName} text-gray-700 text-center text-base font-normal leading-[15.12px]`}
+              className={`${textClassName} ${
+                isHighContrast ? "text-yellow-300" : "text-neutral-800"
+              } text-center text-base font-normal leading-[15.12px]`}
             >
               {language === "ko"
                 ? "PDF 형식의 파일을 업로드해주세요"
