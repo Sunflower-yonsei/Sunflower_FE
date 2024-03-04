@@ -1,7 +1,7 @@
 interface Messages {
     [key: string]: {
       fileSelectAlert: string;
-      uploadSuccess: (id: string) => string;
+      uploadSuccess: (name: string) => string;
       uploadFail: string;
     };
   }
@@ -9,7 +9,7 @@ interface Messages {
   const messages: Messages = {
     ko: {
       fileSelectAlert: "파일을 선택해주세요.",
-      uploadSuccess: (id: string) => `${id} 파일 업로드가 완료되었습니다. 변환을 시작하시겠습니까?`,
+      uploadSuccess: (name: string) => `${name} 파일 업로드가 완료되었습니다. 변환을 시작하시겠습니까?`,
       uploadFail: "파일 업로드에 실패했습니다. 다시 시도해주세요.",
     },
     en: {

@@ -7,11 +7,13 @@ import "../tailwind.css";
 import { useLanguage } from "../LanguageContext";
 import { useHighContrast } from "../components/HighContrastMode";
 
+
 const ConvertPage = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
   const { isHighContrast } = useHighContrast();
+
 
   return (
     <div

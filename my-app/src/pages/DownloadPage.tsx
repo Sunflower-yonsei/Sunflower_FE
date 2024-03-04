@@ -1,23 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useMediaQuery } from "react-responsive";
 import BrailleDeco from "../components/BrailleDeco";
 import NavBar from "../components/NavBar";
 import NewFileUpload from "../components/NewFileUploadButton";
 import DownloadButton from "../components/DownloadButton";
-import { useLocation } from "react-router-dom";
 import { useLanguage } from "../LanguageContext";
 import { useHighContrast } from "../components/HighContrastMode";
+import { useLocation } from "react-router-dom";
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 const DownloadBrf = () => {
-  const location = useLocation();
-  const query = new URLSearchParams(location.search);
+  const query = useQuery();
   const fileId = query.get("fileId");
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
   const { isHighContrast } = useHighContrast();
+  const [fileName, setFileName] = useState("");
 
+  useEffect(() => {
+    const fetchFileInfo = async () => {
+      if (fileId) {
+        try {
+          const response = await axios.get(`/translations/${fileId}`);
+          setFileName(response.data.convertedFileName);
+        } catch (error) {
+          console.error("파일 정보를 불러오는데 실패했습니다.", error);
+        }
+      }
+    };
+
+    fetchFileInfo();
+  }, [fileId]);
 
   return (
     <div className={`w-full h-screen bg-stone-200`}>
@@ -61,10 +79,12 @@ const DownloadBrf = () => {
             </div>
             <div className="w-[90px] h-[130px] m-auto my-[30px] relative">
               <img src="/img/complete.png" alt="Conversion Complete" />
-              <div className={`text-center my-[20px] ${
-                    isHighContrast ? "text-yellow-300" : "text-neutral-800"
-                  } text-base font-normal leading-[25px]`}>
-                {fileId}.brf
+              <div
+                className={`text-center my-[20px] ${
+                  isHighContrast ? "text-yellow-300" : "text-neutral-800"
+                } text-base font-normal leading-[25px]`}
+              >
+                {`${fileName.split(".")[0]}.brf`}
               </div>
             </div>
             <div className="w-auto h-auto m-auto flex flex-col items-center justify-center">

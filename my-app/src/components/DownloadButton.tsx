@@ -11,7 +11,7 @@ const DownloadButton = () => {
 
   const getFileIdFromURL = () => {
     const params = new URLSearchParams(location.search);
-    return params.get("fileId"); // Extracts 'fileId' from the URL query parameters
+    return params.get("fileId");
   };
 
   const downloadFile = async (fileId: string) => {
@@ -40,7 +40,7 @@ const DownloadButton = () => {
     if (fileId) {
       downloadFile(fileId);
     } else {
-      console.error("No file ID found in URL");
+      console.error("No file found in URL");
     }
   };
 

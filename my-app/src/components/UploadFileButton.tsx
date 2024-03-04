@@ -11,6 +11,10 @@ interface UploadFileButtonState {
   pdf: File | null;
 }
 
+interface FileUploadInfo {
+  originalFileName: string | null;
+}
+
 const UploadFileButton: React.FC = () => {
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
@@ -22,9 +26,13 @@ const UploadFileButton: React.FC = () => {
     content: "",
     pdf: null,
   });
+
+  const [uploadInfo, setUploadInfo] = useState<FileUploadInfo>({
+    originalFileName: null,
+  });
+
   const [translationsId, setTranslationsId] = useState<string | null>(null);
 
-  // Getting PDF Info.
   const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files && e.target.files[0];
     if (selectedFile) {
@@ -57,10 +65,18 @@ const UploadFileButton: React.FC = () => {
       });
 
       if (response.status === 201) {
+        const originalFileNameFromResponse = response.data.originalFileName;
         const locationHeader = response.headers["location"];
         const translationsId = locationHeader.split("/").pop();
 
-        const confirmConversion = window.confirm(uploadSuccess(translationsId));
+        if (originalFileNameFromResponse) {
+          setUploadInfo({ originalFileName: originalFileNameFromResponse });
+        } else {
+          console.error(uploadInfo);
+        }
+        const confirmConversion = window.confirm(
+          uploadSuccess(originalFileNameFromResponse)
+        );
         if (confirmConversion && translationsId) {
           startConversion(translationsId);
         }
@@ -96,7 +112,7 @@ const UploadFileButton: React.FC = () => {
             >
               <div
                 className={`${textClassName} ${
-                  isHighContrast ? "text-neutral-800" : "text-white" 
+                  isHighContrast ? "text-neutral-800" : "text-white"
                 } text-base font-medium  leading-none`}
               >
                 {language === "ko" ? "1. 파일 선택하기" : "1. Select File"}
