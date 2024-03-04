@@ -24,7 +24,7 @@ const ProgressStatus: React.FC<ProgressStatusProps> = ({ progress, label }) => {
         )}
       </svg>
       <div className="ml-2 text-sm font-medium text-gray-700">
-        {progress === 100 ? `${label} Done` : `${label} Processing...`}
+        {label}
       </div>
     </div>
   );

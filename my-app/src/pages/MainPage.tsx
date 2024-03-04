@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import NavBar from "../components/NavBar";
 import BrailleDeco from "../components/BrailleDeco";
@@ -12,9 +12,25 @@ const MainPage = () => {
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
   const { isHighContrast } = useHighContrast();
+  const [announcement, setAnnouncement] = useState('');
+
+  // Screen Reader Message Setting
+  useEffect(() => {
+    const message = language === 'ko' ? '변환이 완료되었습니다' : 'Conversion Completed';
+    setAnnouncement(message);
+
+    const timer = setTimeout(() => {
+      setAnnouncement('');
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [language]);
 
   return (
     <div>
+      <div aria-live="polite" className="sr-only">
+        {announcement}
+      </div>
       <div
         className={`w-full h-screen ${
           isHighContrast ? "bg-black" : "bg-stone-200"
