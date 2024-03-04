@@ -13,7 +13,7 @@ function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-const DownloadBrf = () => {
+const DownloadPage = () => {
   const query = useQuery();
   const fileId = query.get("fileId");
   const isMobile = useMediaQuery({ maxWidth: 768 });
@@ -21,7 +21,22 @@ const DownloadBrf = () => {
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
   const { isHighContrast } = useHighContrast();
   const [fileName, setFileName] = useState("");
+  const [announcement, setAnnouncement] = useState('');
 
+
+  // Screen Reader Message Setting
+  useEffect(() => {
+    const message = language === 'ko' ? '변환이 완료되었습니다' : 'Conversion Completed';
+    setAnnouncement(message);
+
+    const timer = setTimeout(() => {
+      setAnnouncement('');
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [language]);
+
+  // Catching Error
   useEffect(() => {
     const fetchFileInfo = async () => {
       if (fileId) {
@@ -39,6 +54,9 @@ const DownloadBrf = () => {
 
   return (
     <div className={`w-full h-screen bg-stone-200`}>
+      <div aria-live="polite" className="sr-only">
+        {announcement}
+      </div>
       <NavBar />
       <div
         className={`w-full h-screen flex items-center justify-center ${
@@ -99,4 +117,4 @@ const DownloadBrf = () => {
   );
 };
 
-export default DownloadBrf;
+export default DownloadPage;

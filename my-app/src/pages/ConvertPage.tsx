@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import NavBar from "../components/NavBar";
 import BrailleDeco from "../components/BrailleDeco";
@@ -7,13 +7,26 @@ import "../tailwind.css";
 import { useLanguage } from "../LanguageContext";
 import { useHighContrast } from "../components/HighContrastMode";
 
-
 const ConvertPage = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
   const { isHighContrast } = useHighContrast();
+  const [announcement, setAnnouncement] = useState("");
 
+  useEffect(() => {
+    const message =
+      language === "ko"
+        ? "파일을 업로드하는 페이지입니다."
+        : "This page is for File Upload";
+    setAnnouncement(message);
+
+    const timer = setTimeout(() => {
+      setAnnouncement("");
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [language]);
 
   return (
     <div
@@ -21,6 +34,9 @@ const ConvertPage = () => {
         isHighContrast ? "bg-black" : "bg-stone-200"
       }`}
     >
+      <div aria-live="polite" className="sr-only">
+        {announcement}
+      </div>
       <NavBar />
       <div
         className={`content box w-full ${
