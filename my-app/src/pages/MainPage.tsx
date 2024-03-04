@@ -16,7 +16,7 @@ const MainPage = () => {
 
   // Screen Reader Message Setting
   useEffect(() => {
-    const message = language === 'ko' ? '변환이 완료되었습니다' : 'Conversion Completed';
+    const message = language === 'ko' ? 'Sunny Braille 메인 페이지입니다' : 'This is the main page of Sunny Braille';
     setAnnouncement(message);
 
     const timer = setTimeout(() => {

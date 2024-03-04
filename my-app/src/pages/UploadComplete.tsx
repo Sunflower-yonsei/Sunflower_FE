@@ -1,10 +1,11 @@
-import React from 'react'
+import React from "react";
 import NavBar from '../components/NavBar'
 import BrailleDeco from '../components/BrailleDeco'
 import ConvertButton from '../components/ConvertButton'
 import ReUploadButton from '../components/ReUploadButton'
 
 const UploadComplete = () => {
+
     return (
         <div className='w-full h-screen bg-stone-200'>
             <NavBar />
