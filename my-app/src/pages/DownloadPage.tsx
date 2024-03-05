@@ -102,7 +102,7 @@ const DownloadPage = () => {
                   isHighContrast ? "text-yellow-300" : "text-neutral-800"
                 } text-base font-normal leading-[25px]`}
               >
-                {`file.brf`}
+                {`${fileName}.brf`}
               </div>
             </div>
             <div className="w-auto h-auto m-auto flex flex-col items-center justify-center">
