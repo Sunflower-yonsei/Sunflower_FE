@@ -42,7 +42,7 @@ const DownloadPage = () => {
       if (fileId) {
         try {
           const response = await axios.get(`/translations/${fileId}`);
-          setFileName(response.data.convertedFileName);
+          setFileName(response.data.originalFileName);
         } catch (error) {
           console.error("파일 정보를 불러오는데 실패했습니다.", error);
         }

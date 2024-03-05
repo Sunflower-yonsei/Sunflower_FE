@@ -91,7 +91,6 @@ const TranslationProgress: React.FC<TranslationProgressProps> = ({
         }
       } catch (error) {
         console.error("Error checking the translation status:", error);
-        // 오류 메시지도 언어에 따라 설정
         setProgressMessage(
           language === "ko"
             ? "진행 상황을 불러오는 중 오류가 발생했습니다"
