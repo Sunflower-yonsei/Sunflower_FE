@@ -17,14 +17,24 @@ const DownloadButton = () => {
   const downloadFile = async (fileId: string) => {
     try {
       const apiUrl = process.env.REACT_APP_API_URL;
-      const response = await fetch(`${apiUrl}/translations/${fileId}`);
-      if (!response.ok) {
+
+      
+
+      const fileResponse = await fetch(`${apiUrl}/translations/${fileId}`);
+      if (!fileResponse.ok) {
         throw new Error("File not found on server");
       }
-      const blob = await response.blob();
+
+      const filedata = await fileResponse.json();
+      const originalFileName = filedata.originalFileName;
+      if (!originalFileName) {
+        throw new Error("Original file name is missing");
+      }
+
+      const blob = await fileResponse.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.download = `${fileId}.brf`;
+      a.download = `${originalFileName}.brf`; 
       a.href = url;
       document.body.appendChild(a);
       a.click();
