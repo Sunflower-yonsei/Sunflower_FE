@@ -43,18 +43,26 @@ const ConvertPage = () => {
           isMobile ? "px-4" : "w-1/2"
         } h-auto m-auto align-middle flex flex-col items-center justify-center`}
       >
-        <div className="w-auto h-auto align-middle my-[180px]">
+        <div
+          className={`w-auto h-auto align-middle ${
+            isMobile ? "my-[100px]" : "my-[180px]"
+          }`}
+        >
           <div
             className={`${textClassName} ${
               isHighContrast ? "text-yellow-300" : "text-neutral-800"
-            }  m-auto text-center text-5xl font-semibold leading-[60px] tracking-wide`}
+            }  m-auto text-center ${
+              isMobile ? "text-base" : "text-5xl"
+            } font-bold leading-[60px] tracking-wide`}
           >
             {language === "ko" ? "파일 변환하기" : "Convert File"}
           </div>
           <div
             className={`${textClassName} ${
               isHighContrast ? "text-yellow-300" : "text-neutral-800"
-            } my-[20px] text-center text-base font-normal leading-[25px]`}
+            } text-center ${
+              isMobile ? "text-sm my-[5px]" : "text-base my-[20px]"
+            } font-normal leading-[25px]`}
           >
             {language === "ko" ? (
               <>
@@ -72,7 +80,11 @@ const ConvertPage = () => {
               </>
             )}
           </div>
-          <div className="w-[90px] h-[130px] m-auto my-[30px] relative">
+          <div
+            className={`${
+              isMobile ? "w-[60px] h-[80px]" : "w-[90px] h-[130px]"
+            } m-auto my-[30px] relative`}
+          >
             <img src="/img/uploadfile.png" alt="Upload File" />
           </div>
           <div className="w-auto h-auto my-[40px]">

@@ -19,7 +19,7 @@ const NewFileUpload = () => {
               isHighContrast
                 ? "bg-yellow-300 hover:bg-yellow-600"
                 : "bg-stone-800 hover:bg-stone-600"
-            } ml-4 rounded justify-center items-center gap-2.5 inline-flex transition duration-300 ease-in-out`}
+            } rounded justify-center items-center gap-2.5 inline-flex transition duration-300 ease-in-out`}
           >
             <div
               className={`${textClassName} ${

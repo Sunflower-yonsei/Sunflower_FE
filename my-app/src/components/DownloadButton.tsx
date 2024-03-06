@@ -3,6 +3,12 @@ import { useLocation } from "react-router-dom";
 import { useLanguage } from "../LanguageContext";
 import { useHighContrast } from "./HighContrastMode";
 
+function removeExtension(fileName: string): string {
+  const lastIndex = fileName.lastIndexOf('.');
+  if (lastIndex === -1) return fileName; 
+  return fileName.substring(0, lastIndex);
+}
+
 const DownloadButton = () => {
   const location = useLocation();
   const { language } = useLanguage();
@@ -17,24 +23,26 @@ const DownloadButton = () => {
   const downloadFile = async (fileId: string) => {
     try {
       const apiUrl = process.env.REACT_APP_API_URL;
-
-      
+      const metadataResponse = await fetch(
+        `${apiUrl}/translations/${fileId}`
+      );
+      if (!metadataResponse.ok) {
+        throw new Error("Metadata not found on server");
+      }
+      const metadata = await metadataResponse.json();
+      const originalFileName = metadata.originalFileName;
+      if (!originalFileName) {
+        throw new Error("Original file name is missing");
+      }
 
       const fileResponse = await fetch(`${apiUrl}/translations/${fileId}`);
       if (!fileResponse.ok) {
         throw new Error("File not found on server");
       }
-
-      const filedata = await fileResponse.json();
-      const originalFileName = filedata.originalFileName;
-      if (!originalFileName) {
-        throw new Error("Original file name is missing");
-      }
-
       const blob = await fileResponse.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.download = `${originalFileName}.brf`; 
+      a.download = `${removeExtension(originalFileName)}.brf`;
       a.href = url;
       document.body.appendChild(a);
       a.click();
@@ -62,12 +70,12 @@ const DownloadButton = () => {
           isHighContrast
             ? "bg-yellow-300 hover:bg-yellow-600"
             : "bg-stone-800 hover:bg-stone-600"
-        } ml-4 mb-2 flex justify-center items-center hover:bg-neutral-600 transition duration-300 ease-in-out`}
+        } my-[10px] flex justify-center items-center hover:bg-neutral-600 transition duration-300 ease-in-out`}
       >
         <div
           className={`${textClassName} ${
             isHighContrast ? "text-stone-800" : "text-white"
-          } text-base font-medium  leading-none`}
+          } text-base font-medium leading-none`}
         >
           {language === "ko" ? "BRF 파일 다운로드" : "Download Brf"}
         </div>
