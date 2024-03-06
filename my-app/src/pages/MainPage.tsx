@@ -45,7 +45,9 @@ const MainPage = () => {
           } flex items-center justify-center`}
         >
           {isMobile && (
-            <div className="relative text-center flex justify-center items-center h-[300px] bg-[#FF6A3F]">
+            <div className={`relative text-center flex justify-center items-center h-[300px] ${
+              isHighContrast ? "text-yellow-300" : "text-neutral-800 bg-[#FF6A3F]"
+            } `}>
               <div className="z-10 text-neutral-800">
                 <div
                   className={`${textClassName} ${
