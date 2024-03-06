@@ -50,14 +50,14 @@ const MainPage = () => {
                 <div
                   className={`${textClassName} ${
                     isHighContrast ? "text-yellow-300" : "text-neutral-800"
-                  } text-6xl font-bold leading-[72px]`}
+                  } text-4xl font-bold leading-[72px]`}
                 >
                   SUNNY BRAILLE
                 </div>
                 <div
                   className={`${textClassName} ${
                     isHighContrast ? "text-yellow-300" : "text-neutral-800"
-                  } text-base mt-4`}
+                  } text-sm mt-4`}
                 >
                   {language === "ko"
                     ? "모바일에서도 최적의 경험을 제공합니다."
@@ -69,6 +69,32 @@ const MainPage = () => {
                 alt="Banner Logo"
                 className="absolute right-[-180px] bottom-[-100px] w-auto h-auto max-h-[300px] max-w-[300px] z-0"
               />
+              <div className="w-auto h-auto top-[350px] left-[150px] absolute">
+                <div
+                  className={`${textClassName} ${isHighContrast ? 'text-yellow-300': 'text-neutral-800'} w-[926px] text-xs font-normal leading-9`}
+                >
+                  {language === "ko" ? (
+                    <>
+                      Sunny Braille은 텍스트 뿐만 수식도 점역해 낼 수 있는
+                      수학에 특화된 점역 프로그램입니다.
+                      <br />
+                      해바라기 팀은 고객님이 쉽고 빠르게 원하는 교육 자료를
+                      점역하고 더 많은 교육 자료의 접근성을 높이려 노력하고
+                      있습니다.
+                    </>
+                  ) : (
+                    <>
+                      Sunny Braille is a transcription program specialized in
+                      mathematics that can transcribe not only text but also
+                      formulas.
+                      <br />
+                      The Sunflower team strives to quickly transcribe the
+                      educational materials you want and increase accessibility
+                      to more educational materials.
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
           )}
 
@@ -124,12 +150,12 @@ const MainPage = () => {
           )}
         </div>
 
-        <div className="w-auto h-auto top-[80px] flex flex-col justify-center relative">
+        <div className={`w-auto h-auto ${isMobile ? "top-[80px]" : "top-[100px]"} flex flex-col justify-center relative`}>
           <ConvertPageRoutingButton />
           <div
             className={`${textClassName} text-center ${
               isHighContrast ? "text-yellow-300" : "text-neutral-800"
-            } text-base font-normal  my-[20px] leading-[37px]`}
+            } text-base ${isMobile ? "text-xs" : "text-base"} font-normal my-[20px] leading-[37px]`}
           >
             {language === "ko" ? (
               <>
