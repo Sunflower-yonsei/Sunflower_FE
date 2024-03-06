@@ -1,11 +1,18 @@
 import React from "react";
 import { useLanguage } from "../LanguageContext";
 import { useHighContrast } from "./HighContrastMode";
+import { useMediaQuery } from "react-responsive";
+
 
 const LanguageToggleButton: React.FC = () => {
+  const isMobile = useMediaQuery({ maxWidth: 768 });
   const { language, toggleLanguage } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
   const { isHighContrast } = useHighContrast();
+
+  const buttonText = language === "ko"
+    ? isMobile ? "English" : "View in English"
+    : isMobile ? "한국어" : "한국어로 보기";
 
   return (
     <button
@@ -16,7 +23,7 @@ const LanguageToggleButton: React.FC = () => {
         isHighContrast ? "bg-black text-stone-800" : "text-white"
       }`}
     >
-      {language === "ko" ? "View in English" : "한국어로 보기"}
+      {buttonText}
     </button>
   );
 };
