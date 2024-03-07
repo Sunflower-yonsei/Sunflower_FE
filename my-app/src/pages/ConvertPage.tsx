@@ -6,6 +6,8 @@ import UploadFileButton from "../components/UploadFileButton";
 import "../tailwind.css";
 import { useLanguage } from "../LanguageContext";
 import { useHighContrast } from "../components/HighContrastMode";
+import ContrastToggleButton from "../components/ContrastToggleButton";
+import LanguageToggleButton from "../components/LanguageToggleButton";
 
 const ConvertPage = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
@@ -101,6 +103,14 @@ const ConvertPage = () => {
           <div>
             <UploadFileButton />
           </div>
+          <br />
+          <br />
+            {isMobile && (
+              <div className="transform -translate-y-1/2 flex flex-row justify-center items-center gap-4">
+                <ContrastToggleButton />
+                <LanguageToggleButton />
+              </div>
+            )}
         </div>
       </div>
       <BrailleDeco />

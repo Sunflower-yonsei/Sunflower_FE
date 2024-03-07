@@ -6,9 +6,11 @@ import "../tailwind.css";
 import ConvertPageRoutingButton from "../components/ConvertPageRoutingButton";
 import { useLanguage } from "../LanguageContext";
 import { useHighContrast } from "../components/HighContrastMode";
+import ContrastToggleButton from "../components/ContrastToggleButton";
+import LanguageToggleButton from "../components/LanguageToggleButton";
 
 const MainPage = () => {
-  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const isMobile = useMediaQuery({ maxWidth: 800 });
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
   const { isHighContrast } = useHighContrast();
@@ -45,9 +47,13 @@ const MainPage = () => {
           } flex items-center justify-center`}
         >
           {isMobile && (
-            <div className={`relative text-center flex justify-center items-center h-[300px] ${
-              isHighContrast ? "text-yellow-300" : "text-neutral-800 bg-[#FF6A3F]"
-            } `}>
+            <div
+              className={`relative text-center flex justify-center items-center h-[300px] ${
+                isHighContrast
+                  ? "text-yellow-300"
+                  : "text-neutral-800 bg-[#FF6A3F]"
+              } `}
+            >
               <div className="z-10 text-neutral-800">
                 <div
                   className={`${textClassName} ${
@@ -73,7 +79,9 @@ const MainPage = () => {
               />
               <div className="w-auto h-auto top-[350px] left-[150px] absolute">
                 <div
-                  className={`${textClassName} ${isHighContrast ? 'text-yellow-300': 'text-neutral-800'} w-[926px] text-xs font-normal leading-9`}
+                  className={`${textClassName} ${
+                    isHighContrast ? "text-yellow-300" : "text-neutral-800"
+                  } w-[926px] text-xs font-normal leading-9`}
                 >
                   {language === "ko" ? (
                     <>
@@ -105,14 +113,18 @@ const MainPage = () => {
             <div>
               <div className="w-auto h-[72px] top-[200px] left-[150px] absolute">
                 <div
-                  className={`SunnyBraille ${isHighContrast ? 'text-yellow-300': 'text-neutral-800'} font-eng text-6xl font-bold leading-[72px] tracking-wide`}
+                  className={`SunnyBraille ${
+                    isHighContrast ? "text-yellow-300" : "text-neutral-800"
+                  } font-eng text-6xl font-bold leading-[72px] tracking-wide`}
                 >
                   SUNNY BRAILLE
                 </div>
               </div>
               <div className="w-auto h-[72px] top-[290px] left-[150px] absolute">
                 <div
-                  className={`${textClassName} ${isHighContrast ? 'text-yellow-300': 'text-neutral-800'} w-[926px] text-2xl font-semibold leading-[18.90px]`}
+                  className={`${textClassName} ${
+                    isHighContrast ? "text-yellow-300" : "text-neutral-800"
+                  } w-[926px] text-2xl font-semibold leading-[18.90px]`}
                 >
                   {language === "ko"
                     ? "Sunny Braille은 해바라기팀이 개발한 교육용 웹 점역 소프트웨어 입니다."
@@ -121,7 +133,9 @@ const MainPage = () => {
               </div>
               <div className="w-auto h-auto top-[350px] left-[150px] absolute">
                 <div
-                  className={`${textClassName} ${isHighContrast ? 'text-yellow-300': 'text-neutral-800'} w-[926px] text-base font-normal leading-9`}
+                  className={`${textClassName} ${
+                    isHighContrast ? "text-yellow-300" : "text-neutral-800"
+                  } w-[926px] text-base font-normal leading-9`}
                 >
                   {language === "ko" ? (
                     <>
@@ -152,12 +166,20 @@ const MainPage = () => {
           )}
         </div>
 
-        <div className={`w-auto h-auto ${isMobile ? "top-[80px]" : "top-[100px]"} flex flex-col justify-center relative`}>
-          <ConvertPageRoutingButton />
+        <div
+          className={`w-auto h-auto ${
+            isMobile ? "top-[80px]" : "top-[100px]"
+          } flex flex-col justify-center relative`}
+        >
+          <div>
+            <ConvertPageRoutingButton />
+          </div>
           <div
             className={`${textClassName} text-center ${
               isHighContrast ? "text-yellow-300" : "text-neutral-800"
-            } text-base ${isMobile ? "text-xs" : "text-base"} font-normal my-[20px] leading-[37px]`}
+            } text-base ${
+              isMobile ? "text-xs" : "text-base"
+            } font-normal my-[20px] leading-[37px]`}
           >
             {language === "ko" ? (
               <>
@@ -175,6 +197,13 @@ const MainPage = () => {
               </>
             )}
           </div>
+          <br />
+            {isMobile && (
+              <div className="transform -translate-y-1/2 flex flex-row justify-center gap-4">
+                <ContrastToggleButton />
+                <LanguageToggleButton />
+              </div>
+            )}
         </div>
       </div>
       <BrailleDeco />

@@ -8,6 +8,8 @@ import { useLanguage } from "../LanguageContext";
 import { useHighContrast } from "../components/HighContrastMode";
 import { useLocation } from "react-router-dom";
 import FileNameDisplay from "../components/FileNameDisplay";
+import ContrastToggleButton from "../components/ContrastToggleButton";
+import LanguageToggleButton from "../components/LanguageToggleButton";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -36,7 +38,9 @@ const DownloadPage = () => {
   }, [language]);
 
   return (
-    <div className={`w-full h-screen bg-stone-200`}>
+    <div className={`w-full h-screen ${
+      isHighContrast ? "bg-black" : "bg-stone-200"
+    }`}>
       <div aria-live="polite" className="sr-only">
         {announcement}
       </div>
@@ -95,12 +99,21 @@ const DownloadPage = () => {
             >
               <img src="/img/complete.png" alt="Conversion Complete" />
             </div>
-            <div className="w-auto h-auto m-auto flex flex-col items-center justify-center my-[10px]">
+            <div className="w-auto h-auto m-auto flex flex-col items-center justify-center">
               <FileNameDisplay fileId={fileId} />
               <DownloadButton />
               <NewFileUpload />
+              
             </div>
+            
           </div>
+          <br />
+            {isMobile && (
+              <div className="transform -translate-y-1/2 flex flex-row justify-center gap-4">
+                <ContrastToggleButton />
+                <LanguageToggleButton />
+              </div>
+            )}
         </div>
       </div>
       <BrailleDeco />

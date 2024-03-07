@@ -5,7 +5,7 @@ import { useMediaQuery } from "react-responsive";
 
 
 const ContrastToggleButton = () => {
-  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const isMobile = useMediaQuery({ maxWidth: 790 });
   const { isHighContrast, toggleHighContrast } = useHighContrast();
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
