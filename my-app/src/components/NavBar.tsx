@@ -10,7 +10,7 @@ import { useHighContrast } from "./HighContrastMode";
 import { MdMenu } from "react-icons/md";
 
 const NavBar = () => {
-  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const isMobile = useMediaQuery({ maxWidth: 800 });
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
   const { isHighContrast } = useHighContrast();
@@ -161,10 +161,6 @@ const NavBar = () => {
                 </div>
               </button>
             </Link>
-          </div>
-          <div className="absolute right-10 top-0.3 transform -translate-y-1/2 flex flex-row items-center gap-4">
-            <ContrastToggleButton />
-            <LanguageToggleButton />
           </div>
         </div>
       )}

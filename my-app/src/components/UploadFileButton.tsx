@@ -5,6 +5,7 @@ import { useLanguage } from "../LanguageContext";
 import messages from "./Messages";
 import { useHighContrast } from "../components/HighContrastMode";
 
+
 interface UploadFileButtonState {
   title: string;
   content: string;
@@ -19,6 +20,7 @@ const UploadFileButton: React.FC = () => {
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
   const { isHighContrast } = useHighContrast();
+
 
   const { fileSelectAlert, uploadSuccess, uploadFail } = messages[language];
   const [state, setState] = useState<UploadFileButtonState>({
@@ -152,6 +154,7 @@ const UploadFileButton: React.FC = () => {
           </button>
         </form>
       </div>
+      
       <div>
         {translationsId && (
           <TranslationProgress translationsId={translationsId} />
