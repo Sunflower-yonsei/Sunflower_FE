@@ -4,8 +4,8 @@ import { useLanguage } from "../LanguageContext";
 import { useHighContrast } from "./HighContrastMode";
 
 function removeExtension(fileName: string): string {
-  const lastIndex = fileName.lastIndexOf('.');
-  if (lastIndex === -1) return fileName; 
+  const lastIndex = fileName.lastIndexOf(".");
+  if (lastIndex === -1) return fileName;
   return fileName.substring(0, lastIndex);
 }
 
@@ -23,23 +23,25 @@ const DownloadButton = () => {
   const downloadFile = async (fileId: string) => {
     try {
       const apiUrl = process.env.REACT_APP_API_URL;
-      const metadataResponse = await fetch(
-        `${apiUrl}/translations/${fileId}`
-      );
+
+      // File Name setting
+      const metadataResponse = await fetch(`${apiUrl}/translations/${fileId}`);
       if (!metadataResponse.ok) {
         throw new Error("Metadata not found on server");
       }
       const metadata = await metadataResponse.json();
       const originalFileName = metadata.originalFileName;
-      if (!originalFileName) {
-        throw new Error("Original file name is missing");
+      const fileContent = metadata.content;
+      if (!originalFileName || !fileContent) {
+        throw new Error("Original file name or content is missing");
       }
 
-      const fileResponse = await fetch(`${apiUrl}/translations/${fileId}`);
-      if (!fileResponse.ok) {
-        throw new Error("File not found on server");
-      }
-      const blob = await fileResponse.blob();
+      const contentToDownload =
+        typeof fileContent === "string"
+          ? fileContent
+          : JSON.stringify(fileContent);
+
+      const blob = new Blob([contentToDownload], { type: "text/plain" });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.download = `${removeExtension(originalFileName)}.brf`;
