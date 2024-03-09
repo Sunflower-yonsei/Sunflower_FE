@@ -59,6 +59,11 @@ const DownloadButton = () => {
     const fileId = getFileIdFromURL();
     if (fileId) {
       downloadFile(fileId);
+      const message =
+        language === "ko"
+          ? "파일 다운로드가 완료되었습니다"
+          : "Download Completed";
+      setDownloadStatus(message);
     } else {
       console.error("No file found in URL");
     }
