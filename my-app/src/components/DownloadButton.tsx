@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useLanguage } from "../LanguageContext";
 import { useHighContrast } from "./HighContrastMode";
+import StatusMessage from "./StatusMessage";
 
 function removeExtension(fileName: string): string {
   const lastIndex = fileName.lastIndexOf(".");
@@ -14,6 +15,7 @@ const DownloadButton = () => {
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
   const { isHighContrast } = useHighContrast();
+  const [downloadStatus, setDownloadStatus] = useState<string>("");
 
   const getFileIdFromURL = () => {
     const params = new URLSearchParams(location.search);
@@ -82,6 +84,7 @@ const DownloadButton = () => {
           {language === "ko" ? "BRF 파일 다운로드" : "Download Brf"}
         </div>
       </button>
+      <StatusMessage message={downloadStatus} />
     </div>
   );
 };
