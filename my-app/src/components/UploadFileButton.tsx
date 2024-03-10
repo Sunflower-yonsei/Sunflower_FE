@@ -83,12 +83,14 @@ const UploadFileButton: React.FC = () => {
         if (confirmConversion && translationsId) {
           startConversion(translationsId);
         }
-      } else if (response.status === 401) {
-        alert(AuthFail);
-        navigate("/login");
       }
     } catch (error) {
-      alert(uploadFail);
+      if ((error as any).response && (error as any).response.status === 401) {
+        alert(AuthFail);
+        navigate("/login");
+      } else {
+        alert(uploadFail);
+      }
     }
   };
 

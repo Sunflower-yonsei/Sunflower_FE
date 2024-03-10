@@ -54,7 +54,7 @@ const SignUpPage: React.FC = () => {
         loginId,
         password,
       });
-      if (response.status === 201) {
+      if (response.status === 200) {
         alert(
           language === "ko"
             ? "회원가입이 완료되었습니다.\n지금 바로 로그인하세요!"

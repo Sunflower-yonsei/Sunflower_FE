@@ -9,7 +9,7 @@ import NavBar from "./NavBar";
 const LoginPage: React.FC = () => {
   const [loginId, setLoginId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const [messageerror, setError] = useState<string>("");
   const { isHighContrast } = useHighContrast();
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
@@ -57,7 +57,7 @@ const LoginPage: React.FC = () => {
       } else {
         setError("An unexpected error occurred.");
       }
-      alert("Error during login: " + error);
+      alert("Error during login: " + messageerror);
     }
   };
 
@@ -110,7 +110,7 @@ const LoginPage: React.FC = () => {
             >
               Login
             </button>
-            {error && <p>{error}</p>}
+            {messageerror && <p>{messageerror}</p>}
           </form>
           <button
             className={`mt-4  ${
