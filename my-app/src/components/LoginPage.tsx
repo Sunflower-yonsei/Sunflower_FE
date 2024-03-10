@@ -35,10 +35,11 @@ const LoginPage: React.FC = () => {
   const handleLogin = async () => {
     try {
       const apiUrl = process.env.REACT_APP_API_URL;
-      const response = await axios.post(`${apiUrl}/login`, {
-        loginId,
-        password,
-      });
+      const response = await axios.post(
+        `${apiUrl}/login`,
+        { loginId, password },
+        { withCredentials: true }
+      );
       if (response.status === 200) {
         setLoggedIn(true);
         navigate("/");
