@@ -8,6 +8,8 @@ import { useLanguage } from "../LanguageContext";
 import ContrastToggleButton from "./ContrastToggleButton";
 import { useHighContrast } from "./HighContrastMode";
 import { MdMenu } from "react-icons/md";
+import { useAuth } from "./AuthContext";
+import AuthButtons from "./AuthButton";
 
 const NavBar = () => {
   const isMobile = useMediaQuery({ maxWidth: 800 });
@@ -16,6 +18,7 @@ const NavBar = () => {
   const { isHighContrast } = useHighContrast();
   const toggleSidebar = () => setIsOpen(!isOpen);
   const [isOpen, setIsOpen] = useState(false);
+  const { isLoggedIn } = useAuth();
 
   return (
     <div
@@ -27,6 +30,7 @@ const NavBar = () => {
       {!isMobile && (
         <div>
           <div className="absolute right-10 top-[24px] flex items-center gap-4">
+            <AuthButtons />
             <ContrastToggleButton />
             <LanguageToggleButton />
             <a
@@ -105,6 +109,7 @@ const NavBar = () => {
               }`}
             >
               <div className="absolute left-5 top-20 flex flex-col items-left gap-4 p-4">
+                {isLoggedIn && <div>로그인되었습니다</div>}
                 <Link
                   to="/product"
                   className={`${
