@@ -57,7 +57,7 @@ const LoginPage: React.FC = () => {
       } else {
         setError("An unexpected error occurred.");
       }
-      console.error("Error during login:", error);
+      alert("Error during login: " + error);
     }
   };
 
@@ -78,18 +78,22 @@ const LoginPage: React.FC = () => {
             className="p-8 bg-white shadow-md rounded-lg"
             onSubmit={handleLogin}
           >
-            <h2 className="text-2xl font-semibold mb-6 text-center">Login</h2>
+            <h2
+              className={`${textClassName} text-2xl font-semibold mb-6 text-center`}
+            >
+              Login
+            </h2>
             <input
-              className="w-full p-2 mb-4 border border-gray-300 rounded focus:ring-2 focus:ring-[#FF6A3F] focus:outline-none"
+              className={`${textClassName} w-full p-2 mb-4 border border-gray-300 rounded focus:ring-2 focus:ring-[#FF6A3F] focus:outline-none`}
               type="text"
               value={loginId}
               onChange={(e) => setLoginId(e.target.value)}
-              placeholder="Login ID"
+              placeholder="ID"
               autoComplete="username"
               required
             />
             <input
-              className="w-full p-2 mb-4 border border-gray-300 rounded focus:ring-2 focus:ring-[#FF6A3F] focus:outline-none"
+              className={`${textClassName} w-full p-2 mb-4 border border-gray-300 rounded focus:ring-2 focus:ring-[#FF6A3F] focus:outline-none`}
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
