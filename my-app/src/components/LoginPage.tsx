@@ -44,13 +44,15 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-stone-200">
-      <div className="p-8">
+      <form className="p-8" onSubmit={handleLogin}>
         <input
           className="w-full p-2 mb-4 border rounded"
           type="text"
           value={loginId}
           onChange={(e) => setLoginId(e.target.value)}
           placeholder="Login ID"
+          autoComplete="username"
+          required
         />
         <input
           className="w-full p-2 mb-4 border rounded"
@@ -58,6 +60,8 @@ const LoginPage: React.FC = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
+          autoComplete="username"
+          required
         />
         <button
           className={`${
@@ -65,12 +69,11 @@ const LoginPage: React.FC = () => {
               ? "bg-yellow-300 hover:bg-yellow-600"
               : "bg-[#FF6A3F] hover:bg-[#E6552F]"
           } w-full p-2`}
-          onClick={handleLogin}
         >
           Login
         </button>
         {error && <p>{error}</p>}
-      </div>
+      </form>
     </div>
   );
 };

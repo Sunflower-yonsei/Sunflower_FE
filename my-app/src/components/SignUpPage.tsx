@@ -38,8 +38,8 @@ const SignUpPage: React.FC = () => {
         loginId,
         password,
       });
-      if (response.status === 200) {
-        navigate("*");
+      if (response.status === 201) {
+        navigate("/");
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -57,7 +57,7 @@ const SignUpPage: React.FC = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-stone-200">
       <form className="p-8" onSubmit={handleSignUp}>
         <input
-          className={`w-full p-2 mb-4 border ${
+          className={`${textClassName} w-full p-2 mb-4 border ${
             isSubmitted && !loginId.trim() ? "border-red-500" : "rounded"
           }`}
           type="text"
@@ -68,7 +68,7 @@ const SignUpPage: React.FC = () => {
           required
         />
         <input
-          className={`w-full p-2 mb-4 border ${
+          className={`w-full p-2 mb-4 border ${textClassName} ${
             isSubmitted && !password.trim() ? "border-red-500" : "rounded"
           }`}
           type="password"
@@ -80,7 +80,7 @@ const SignUpPage: React.FC = () => {
         />
         <button
           type="submit"
-          className={`${
+          className={`${textClassName} ${
             isHighContrast
               ? "bg-yellow-300 hover:bg-yellow-600"
               : "bg-[#FF6A3F] hover:bg-[#E6552F]"

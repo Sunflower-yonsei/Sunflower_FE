@@ -37,10 +37,22 @@ const AuthButtons: React.FC = () => {
       ) : (
         <>
           <Link to="/login">
-            <button>{language === "ko" ? "로그인하기" : "Login"}</button>
+            <button
+              className={`${textClassName} ${
+                isHighContrast ? "text-yellow-300" : "text-neutral-800"
+              }`}
+            >
+              {language === "ko" ? "로그인하기" : "Login"}
+            </button>
           </Link>
           <Link to="/signup">
-            <button>{language === "ko" ? "회원가입" : "Sign Up"}</button>
+            <button
+              className={`${textClassName} ${
+                isHighContrast ? "text-yellow-300" : "text-neutral-800"
+              }`}
+            >
+              {language === "ko" ? "회원가입" : "Sign Up"}
+            </button>
           </Link>
         </>
       )}
