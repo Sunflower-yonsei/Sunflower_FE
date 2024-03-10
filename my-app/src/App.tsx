@@ -8,9 +8,13 @@ import ConvertComplete from "./pages/ConvertComplete";
 import DownloadPage from "./pages/DownloadPage";
 import { LanguageProvider } from "./LanguageContext";
 import { HighContrastModeProvider } from "./components/HighContrastMode";
+import LoginPage from "./components/LoginPage";
+import SignUpPage from "./components/SignUpPage";
+import { AuthProvider } from "./components/AuthContext";
 
 function App() {
   return (
+    <AuthProvider>
       <HighContrastModeProvider>
         <LanguageProvider>
           <BrowserRouter>
@@ -29,10 +33,15 @@ function App() {
 
               {/* download page */}
               <Route path="/download/*" element={<DownloadPage />} />
+
+              <Route path="/login" element={<LoginPage />} />
+
+              <Route path="/signup" element={<SignUpPage />} />
             </Routes>
           </BrowserRouter>
         </LanguageProvider>
       </HighContrastModeProvider>
+    </AuthProvider>
   );
 }
 

@@ -54,6 +54,11 @@ const DownloadButton = () => {
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Error downloading file:", error);
+      const errorMessage =
+        language === "ko"
+          ? "파일 다운로드 중 오류가 발생했습니다"
+          : "Error occurred during download";
+      setDownloadStatus(errorMessage);
     }
   };
 
@@ -68,6 +73,11 @@ const DownloadButton = () => {
       setDownloadStatus(message);
     } else {
       console.error("No file found in URL");
+      const errorMessage =
+        language === "ko"
+          ? "파일 다운로드 중 오류가 발생했습니다"
+          : "Error occurred during download";
+      setDownloadStatus(errorMessage);
     }
   };
 
