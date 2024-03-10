@@ -4,7 +4,7 @@ import TranslationProgress from "./TranslationProgress";
 import { useLanguage } from "../LanguageContext";
 import messages from "./Messages";
 import { useHighContrast } from "../components/HighContrastMode";
-
+import { useNavigate } from "react-router-dom";
 
 interface UploadFileButtonState {
   title: string;
@@ -20,9 +20,10 @@ const UploadFileButton: React.FC = () => {
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
   const { isHighContrast } = useHighContrast();
+  const navigate = useNavigate();
 
-
-  const { fileSelectAlert, uploadSuccess, uploadFail } = messages[language];
+  const { fileSelectAlert, uploadSuccess, uploadFail, AuthFail } =
+    messages[language];
   const [state, setState] = useState<UploadFileButtonState>({
     title: "",
     content: "",
@@ -82,6 +83,9 @@ const UploadFileButton: React.FC = () => {
         if (confirmConversion && translationsId) {
           startConversion(translationsId);
         }
+      } else if (response.status === 401) {
+        alert(AuthFail);
+        navigate("/login");
       }
     } catch (error) {
       alert(uploadFail);
@@ -154,7 +158,7 @@ const UploadFileButton: React.FC = () => {
           </button>
         </form>
       </div>
-      
+
       <div>
         {translationsId && (
           <TranslationProgress translationsId={translationsId} />
