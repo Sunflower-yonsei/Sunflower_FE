@@ -1,54 +1,49 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  useEffect,
+} from "react";
 
 interface AuthContextType {
   isLoggedIn: boolean;
-  setLoggedIn: (loggedIn: boolean) => void;
+  userId: string | null;
+  setLoginStatus: (loggedIn: boolean, userId: string | null) => void;
 }
 
-export const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const SESSION_TIMEOUT = 10 * 60 * 1000;
-
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [isLoggedIn, setLoggedInState] = useState<boolean>(() => {
-    const isUserLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    const lastLoginTime = localStorage.getItem("lastLoginTime");
-    const isSessionExpired =
-      lastLoginTime &&
-      new Date().getTime() - Number(lastLoginTime) > SESSION_TIMEOUT;
-    return isUserLoggedIn && !isSessionExpired;
-  });
-
-  const setLoggedIn = (loggedIn: boolean) => {
-    localStorage.setItem("isLoggedIn", loggedIn.toString());
-    if (loggedIn) {
-      localStorage.setItem("lastLoginTime", new Date().getTime().toString());
-    } else {
-      localStorage.removeItem("lastLoginTime");
-    }
-    setLoggedInState(loggedIn);
-  };
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    const updateLastLoginTime = () => {
-      if (isLoggedIn) {
-        localStorage.setItem("lastLoginTime", new Date().getTime().toString());
-      }
+    const checkLoginStatus = () => {
+      const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+      const userId = localStorage.getItem("userId");
+      setIsLoggedIn(loggedIn);
+      setUserId(userId);
     };
 
-    window.addEventListener("click", updateLastLoginTime);
-    window.addEventListener("keypress", updateLastLoginTime);
+    checkLoginStatus();
+  }, []);
 
-    return () => {
-      window.removeEventListener("click", updateLastLoginTime);
-      window.removeEventListener("keypress", updateLastLoginTime);
-    };
-  }, [isLoggedIn]);
+  const setLoginStatus = (loggedIn: boolean, userId: string | null) => {
+    localStorage.setItem("isLoggedIn", loggedIn.toString());
+    if (loggedIn && userId) {
+      localStorage.setItem("userId", userId);
+    } else {
+      localStorage.removeItem("userId");
+    }
+    setIsLoggedIn(loggedIn);
+    setUserId(userId);
+  };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setLoggedIn }}>
+    <AuthContext.Provider value={{ isLoggedIn, userId, setLoginStatus }}>
       {children}
     </AuthContext.Provider>
   );
@@ -56,7 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;

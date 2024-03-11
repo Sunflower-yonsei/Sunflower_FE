@@ -16,7 +16,7 @@ const LoginPage: React.FC = () => {
   const [announcement, setAnnouncement] = useState("");
 
   const navigate = useNavigate();
-  const { setLoggedIn } = useAuth();
+  const { setLoginStatus } = useAuth();
 
   useEffect(() => {
     const message =
@@ -42,7 +42,7 @@ const LoginPage: React.FC = () => {
         { withCredentials: true }
       );
       if (response.status === 200) {
-        setLoggedIn(true);
+        setLoginStatus(true, loginId);
         navigate("/");
       }
     } catch (error) {

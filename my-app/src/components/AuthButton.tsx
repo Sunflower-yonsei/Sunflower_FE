@@ -7,11 +7,11 @@ import { useHighContrast } from "./HighContrastMode";
 const AuthButtons: React.FC = () => {
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
-  const { isLoggedIn, setLoggedIn } = useAuth();
+  const { isLoggedIn, setLoginStatus } = useAuth();
   const { isHighContrast } = useHighContrast();
 
   const handleLogout = () => {
-    setLoggedIn(false);
+    setLoginStatus(false, null);
   };
 
   return (
