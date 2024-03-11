@@ -68,7 +68,7 @@ const LoginPage: React.FC = () => {
 
       <NavBar />
       <div
-        className={`w-full h-200 ${
+        className={`w-full h-auto ${
           isHighContrast ? "bg-black" : "bg-stone-200"
         } bottom-0 relative`}
       >
