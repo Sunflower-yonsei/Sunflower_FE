@@ -27,7 +27,9 @@ const DownloadButton = () => {
       const apiUrl = process.env.REACT_APP_API_URL;
 
       // File Name setting
-      const metadataResponse = await fetch(`${apiUrl}/translations/${fileId}`);
+      const metadataResponse = await fetch(
+        `${apiUrl}/transcriptions/${fileId}`
+      );
       if (!metadataResponse.ok) {
         throw new Error("Metadata not found on server");
       }

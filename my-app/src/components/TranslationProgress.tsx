@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import ProgressStatus from "./ProgressStatus";
 import { useLanguage } from "../LanguageContext";
 
-interface TranslationProgressProps {
-  translationsId: string;
+interface TranscriptionsProgressProps {
+  transcriptionsId: string;
 }
 
 const ProgressOverlay: React.FC<{
@@ -15,19 +15,20 @@ const ProgressOverlay: React.FC<{
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
 
-
   return (
     <div className="fixed inset-0 bg-white bg-opacity-75 flex justify-center items-center z-10">
       <div className="text-center">
-        <div className={`${textClassName} mb-4 text-lg font-semibold`}>{progressMessage}</div>
+        <div className={`${textClassName} mb-4 text-lg font-semibold`}>
+          {progressMessage}
+        </div>
         {children}
       </div>
     </div>
   );
 };
 
-const TranslationProgress: React.FC<TranslationProgressProps> = ({
-  translationsId,
+const TranscriptionsProgress: React.FC<TranscriptionsProgressProps> = ({
+  transcriptionsId,
 }) => {
   const { language } = useLanguage();
   const [ocrProgress, setOcrProgress] = useState<number>(0);
@@ -61,7 +62,7 @@ const TranslationProgress: React.FC<TranslationProgressProps> = ({
     const checkStatus = async () => {
       try {
         const apiUrl = process.env.REACT_APP_API_URL;
-        const url = `${apiUrl}/translations/${translationsId}/status`;
+        const url = `${apiUrl}/transcriptions/${transcriptionsId}/status`;
         const response = await axios.get(url);
         const data = response.data;
 
@@ -85,7 +86,7 @@ const TranslationProgress: React.FC<TranslationProgressProps> = ({
             language === "ko" ? "변환이 완료되었습니다" : "Conversion completed"
           );
           setTimeout(
-            () => navigate(`/download?fileId=${translationsId}`),
+            () => navigate(`/download?fileId=${transcriptionsId}`),
             2000
           );
         }
@@ -100,7 +101,14 @@ const TranslationProgress: React.FC<TranslationProgressProps> = ({
     };
 
     checkStatus();
-  }, [translationsId, navigate, dots, ocrProgress, brailleProgress, language]);
+  }, [
+    transcriptionsId,
+    navigate,
+    dots,
+    ocrProgress,
+    brailleProgress,
+    language,
+  ]);
 
   return (
     <ProgressOverlay progressMessage={progressMessage}>
@@ -121,4 +129,4 @@ const TranslationProgress: React.FC<TranslationProgressProps> = ({
     </ProgressOverlay>
   );
 };
-export default TranslationProgress;
+export default TranscriptionsProgress;
