@@ -34,7 +34,7 @@ const UploadFileButton: React.FC = () => {
     originalFileName: null,
   });
 
-  const [translationsId, setTranslationsId] = useState<string | null>(null);
+  const [transcriptionsId, setTranscriptionsId] = useState<string | null>(null);
 
   const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files && e.target.files[0];
@@ -58,7 +58,7 @@ const UploadFileButton: React.FC = () => {
     form_data.append("file", pdf, pdf.name);
 
     let apiUrl = process.env.REACT_APP_API_URL;
-    let url = `${apiUrl}/translations`;
+    let url = `${apiUrl}/transcriptions`;
 
     try {
       const response = await axios.post(url, form_data, {
@@ -70,7 +70,7 @@ const UploadFileButton: React.FC = () => {
       if (response.status === 201) {
         const originalFileNameFromResponse = response.data.originalFileName;
         const locationHeader = response.headers["location"];
-        const translationsId = locationHeader.split("/").pop();
+        const transcriptionsId = locationHeader.split("/").pop();
 
         if (originalFileNameFromResponse) {
           setUploadInfo({ originalFileName: originalFileNameFromResponse });
@@ -80,8 +80,8 @@ const UploadFileButton: React.FC = () => {
         const confirmConversion = window.confirm(
           uploadSuccess(originalFileNameFromResponse)
         );
-        if (confirmConversion && translationsId) {
-          startConversion(translationsId);
+        if (confirmConversion && transcriptionsId) {
+          startConversion(transcriptionsId);
         }
       }
     } catch (error) {
@@ -95,8 +95,8 @@ const UploadFileButton: React.FC = () => {
   };
 
   // Store the ID to trigger rendering the progress component
-  const startConversion = (translationsId: string) => {
-    setTranslationsId(translationsId);
+  const startConversion = (transcriptionsId: string) => {
+    setTranscriptionsId(transcriptionsId);
   };
 
   return (
@@ -162,8 +162,8 @@ const UploadFileButton: React.FC = () => {
       </div>
 
       <div>
-        {translationsId && (
-          <TranslationProgress translationsId={translationsId} />
+        {transcriptionsId && (
+          <TranslationProgress transcriptionsId={transcriptionsId} />
         )}
       </div>
     </div>
