@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import NavBar from "../components/NavBar";
 import BrailleDeco from "../components/BrailleDeco";
-import UploadFileButton from "../components/UploadFileButton";
 import "../tailwind.css";
 import { useLanguage } from "../LanguageContext";
 import { useHighContrast } from "../components/HighContrastMode";
 import ContrastToggleButton from "../components/ContrastToggleButton";
 import LanguageToggleButton from "../components/LanguageToggleButton";
+import FileUploadDragDrop from "../components/UploadFileDragDrop";
 
 const ConvertPage = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
@@ -32,9 +32,9 @@ const ConvertPage = () => {
 
   return (
     <div
-      className={`w-full h-screen relative ${
+      className={`w-full h-screen ${
         isHighContrast ? "bg-black" : "bg-stone-200"
-      }`}
+      } bottom-0 relative`}
     >
       <div aria-live="polite" className="sr-only">
         {announcement}
@@ -101,16 +101,16 @@ const ConvertPage = () => {
             </div>
           </div>
           <div>
-            <UploadFileButton />
+            <FileUploadDragDrop />
           </div>
           <br />
           <br />
-            {isMobile && (
-              <div className="transform -translate-y-1/2 flex flex-row justify-center items-center gap-4">
-                <ContrastToggleButton />
-                <LanguageToggleButton />
-              </div>
-            )}
+          {isMobile && (
+            <div className="transform -translate-y-1/2 flex flex-row justify-center items-center gap-4">
+              <ContrastToggleButton />
+              <LanguageToggleButton />
+            </div>
+          )}
         </div>
       </div>
       <BrailleDeco />
