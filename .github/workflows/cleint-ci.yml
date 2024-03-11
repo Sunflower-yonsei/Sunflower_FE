@@ -19,10 +19,13 @@ jobs:
         node-version: '16'
 
     - name: ✔️ dependencies 설치
+      working-directory: ./my-app
       run: npm install
 
     - name: ✔️ Build 테스트
+      working-directory: ./my-app
       run: npm run build
 
     - name: ✔️ Test 실행
+      working-directory: ./my-app
       run: npm test

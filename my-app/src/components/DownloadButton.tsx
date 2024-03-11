@@ -27,7 +27,9 @@ const DownloadButton = () => {
       const apiUrl = process.env.REACT_APP_API_URL;
 
       // File Name setting
-      const metadataResponse = await fetch(`${apiUrl}/translations/${fileId}`);
+      const metadataResponse = await fetch(
+        `${apiUrl}/transcriptions/${fileId}`
+      );
       if (!metadataResponse.ok) {
         throw new Error("Metadata not found on server");
       }
@@ -66,6 +68,11 @@ const DownloadButton = () => {
     const fileId = getFileIdFromURL();
     if (fileId) {
       downloadFile(fileId);
+      const message =
+        language === "ko"
+          ? "파일 다운로드가 완료되었습니다"
+          : "Download Completed";
+      setDownloadStatus(message);
     } else {
       console.error("No file found in URL");
       const errorMessage =
