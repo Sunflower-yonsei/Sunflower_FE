@@ -1,8 +1,15 @@
 import React, { useState, useRef } from "react";
+import { useLanguage } from "../LanguageContext";
+import { useHighContrast } from "./HighContrastMode";
+import { useNavigate } from "react-router-dom";
 
 const FileUploadDragDrop: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate(); // useNavigate 훅 사용
+  const { isHighContrast } = useHighContrast();
+  const { language } = useLanguage();
+  const textClassName = language === "ko" ? "font-kor" : "font-eng";
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -28,6 +35,11 @@ const FileUploadDragDrop: React.FC = () => {
           body: formData,
         });
         if (!response.ok) {
+          if (response.status === 401) {
+            alert("로그인 후 이용해주세요.");
+            navigate("/login");
+            return;
+          }
           throw new Error("File upload failed");
         }
         const data = await response.json();
@@ -46,19 +58,28 @@ const FileUploadDragDrop: React.FC = () => {
           className="cursor-pointer"
           aria-labelledby="fileLabel"
         >
-          <span id="fileLabel" className="sr-only">
-            파일 선택하기
+          <span id="fileLabel" className={`${textClassName} sr-only`}>
+            {language === "ko" ? "파일 선택하기" : "Select File"}{" "}
           </span>
           <div
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleDrop}
-            className="border-2 border-dashed border-gray-300 p-10 text-center cursor-pointer"
+            className={`${textClassName} ${
+              isHighContrast ? "text-yellow-300" : "text-neutral-800"
+            } border-2 border-dashed border-gray-300 p-10 text-center cursor-pointer`}
           >
-            Drag & Drop files here or{" "}
-            <span className="text-blue-600 underline">Select File</span>
+            {language === "ko"
+              ? "파일을 끌어오거나"
+              : "Drag & Drop files here or"}{" "}
+            <span className={`${textClassName} text-blue-600 underline`}>
+              {language === "ko" ? "선택하기" : "Select File"}
+            </span>
           </div>
           {selectedFile && (
-            <div className="mt-4">Selected file: {selectedFile.name}</div>
+            <div className={`${textClassName} mt-4`}>
+              {language === "ko" ? "선택된 파일:" : "Selected File:"}{" "}
+              {selectedFile.name}
+            </div>
           )}
           <input
             type="file"
@@ -79,8 +100,12 @@ const FileUploadDragDrop: React.FC = () => {
             !selectedFile ? "bg-gray-500" : "bg-stone-800 hover:bg-stone-600"
           } rounded mr-4 flex justify-center items-center transition duration-300 ease-in-out`}
         >
-          <div className="text-white text-base font-medium leading-none">
-            파일 업로드하기
+          <div
+            className={`${textClassName} ${
+              isHighContrast ? "text-yellow-300" : "text-stone-200"
+            } text-base font-medium leading-none`}
+          >
+            {language === "ko" ? "파일 변환하기" : "Convert File"}
           </div>
         </button>
       </div>
