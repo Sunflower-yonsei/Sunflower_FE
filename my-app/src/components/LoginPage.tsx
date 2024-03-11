@@ -32,7 +32,8 @@ const LoginPage: React.FC = () => {
     return () => clearTimeout(timer);
   }, [language]);
 
-  const handleLogin = async () => {
+  const handleLogin = async (event: React.FormEvent) => {
+    event.preventDefault();
     try {
       const apiUrl = process.env.REACT_APP_API_URL;
       const response = await axios.post(
@@ -45,19 +46,16 @@ const LoginPage: React.FC = () => {
         navigate("/");
       }
     } catch (error) {
+      let errorMessage = "An unexpected error occurred.";
       if (axios.isAxiosError(error) && error.response) {
         switch (error.response.status) {
           case 401:
-            setError(
-              "Authentication failed. Please check your login ID and password."
-            );
+            errorMessage =
+              "Authentication failed. Please check your login ID and password.";
             break;
-          default:
-            setError("An unexpected error occurred.");
         }
-      } else {
-        setError("An unexpected error occurred.");
       }
+      setError(errorMessage);
       alert("Error during login: " + messageerror);
     }
   };
