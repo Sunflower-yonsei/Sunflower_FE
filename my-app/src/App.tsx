@@ -8,8 +8,8 @@ import ConvertComplete from "./pages/ConvertComplete";
 import DownloadPage from "./pages/DownloadPage";
 import { LanguageProvider } from "./LanguageContext";
 import { HighContrastModeProvider } from "./components/HighContrastMode";
-import LoginPage from "./components/LoginPage";
-import SignUpPage from "./components/SignUpPage";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
 import { AuthProvider } from "./components/AuthContext";
 
 function App() {
