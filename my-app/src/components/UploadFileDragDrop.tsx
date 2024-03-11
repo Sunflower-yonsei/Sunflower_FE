@@ -36,7 +36,7 @@ const FileUploadDragDrop: React.FC = () => {
         });
         if (!response.ok) {
           if (response.status === 401) {
-            alert("로그인 후 이용해주세요.");
+            alert("ko" ? "Please log in first" : "로그인 후 이용해주세요.");
             navigate("/login");
             return;
           }
