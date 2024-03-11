@@ -9,7 +9,7 @@ import NavBar from "./NavBar";
 const LoginPage: React.FC = () => {
   const [loginId, setLoginId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const [messageerror, setError] = useState<string>("");
   const { isHighContrast } = useHighContrast();
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
@@ -35,10 +35,11 @@ const LoginPage: React.FC = () => {
   const handleLogin = async () => {
     try {
       const apiUrl = process.env.REACT_APP_API_URL;
-      const response = await axios.post(`${apiUrl}/login`, {
-        loginId,
-        password,
-      });
+      const response = await axios.post(
+        `${apiUrl}/login`,
+        { loginId, password },
+        { withCredentials: true }
+      );
       if (response.status === 200) {
         setLoggedIn(true);
         navigate("/");
@@ -57,7 +58,7 @@ const LoginPage: React.FC = () => {
       } else {
         setError("An unexpected error occurred.");
       }
-      console.error("Error during login:", error);
+      alert("Error during login: " + messageerror);
     }
   };
 
@@ -78,18 +79,22 @@ const LoginPage: React.FC = () => {
             className="p-8 bg-white shadow-md rounded-lg"
             onSubmit={handleLogin}
           >
-            <h2 className="text-2xl font-semibold mb-6 text-center">Login</h2>
+            <h2
+              className={`${textClassName} text-2xl font-semibold mb-6 text-center`}
+            >
+              Login
+            </h2>
             <input
-              className="w-full p-2 mb-4 border border-gray-300 rounded focus:ring-2 focus:ring-[#FF6A3F] focus:outline-none"
+              className={`${textClassName} w-full p-2 mb-4 border border-gray-300 rounded focus:ring-2 focus:ring-[#FF6A3F] focus:outline-none`}
               type="text"
               value={loginId}
               onChange={(e) => setLoginId(e.target.value)}
-              placeholder="Login ID"
+              placeholder="ID"
               autoComplete="username"
               required
             />
             <input
-              className="w-full p-2 mb-4 border border-gray-300 rounded focus:ring-2 focus:ring-[#FF6A3F] focus:outline-none"
+              className={`${textClassName} w-full p-2 mb-4 border border-gray-300 rounded focus:ring-2 focus:ring-[#FF6A3F] focus:outline-none`}
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -106,7 +111,7 @@ const LoginPage: React.FC = () => {
             >
               Login
             </button>
-            {error && <p>{error}</p>}
+            {messageerror && <p>{messageerror}</p>}
           </form>
           <button
             className={`mt-4  ${

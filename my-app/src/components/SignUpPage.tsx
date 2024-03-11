@@ -54,8 +54,13 @@ const SignUpPage: React.FC = () => {
         loginId,
         password,
       });
-      if (response.status === 201) {
-        navigate("/");
+      if (response.status === 200) {
+        alert(
+          language === "ko"
+            ? "회원가입이 완료되었습니다.\n지금 바로 로그인하세요!"
+            : "Sign up successful.\nPlease log in now!"
+        );
+        navigate("/login");
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -85,7 +90,11 @@ const SignUpPage: React.FC = () => {
             className="p-8 bg-white shadow-md rounded-lg"
             onSubmit={handleSignUp}
           >
-            <h2 className="text-2xl font-semibold mb-6 text-center">Sign Up</h2>
+            <h2
+              className={`${textClassName} text-2xl font-semibold mb-6 text-center`}
+            >
+              Sign Up
+            </h2>
 
             <input
               className={`${textClassName} w-full p-2 mb-4 border ${
@@ -94,7 +103,7 @@ const SignUpPage: React.FC = () => {
               type="text"
               value={loginId}
               onChange={(e) => setLoginId(e.target.value)}
-              placeholder="Login ID"
+              placeholder="ID"
               autoComplete="username"
               required
             />

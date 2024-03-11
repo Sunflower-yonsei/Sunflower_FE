@@ -27,7 +27,7 @@ const ProgressOverlay: React.FC<{
   );
 };
 
-const TranscriptionsProgress: React.FC<TranscriptionsProgressProps> = ({
+const TranslationProgress: React.FC<TranscriptionsProgressProps> = ({
   transcriptionsId,
 }) => {
   const { language } = useLanguage();
@@ -67,7 +67,7 @@ const TranscriptionsProgress: React.FC<TranscriptionsProgressProps> = ({
         const data = response.data;
 
         setOcrProgress(data.ocrPercentDone);
-        setBrailleProgress(data.brailleTranslationPercentDone);
+        setBrailleProgress(data.transcriptionPercentDone);
 
         if (data.ocrPercentDone < 100) {
           setProgressMessage(
@@ -75,7 +75,7 @@ const TranscriptionsProgress: React.FC<TranscriptionsProgressProps> = ({
               ? `문제를 읽는 중${dots}`
               : `Reading the problem${dots}`
           );
-        } else if (data.brailleTranslationPercentDone < 100) {
+        } else if (data.transcriptionPercentDone < 100) {
           setProgressMessage(
             language === "ko"
               ? `점자로 바꾸는 중${dots}`
@@ -129,4 +129,4 @@ const TranscriptionsProgress: React.FC<TranscriptionsProgressProps> = ({
     </ProgressOverlay>
   );
 };
-export default TranscriptionsProgress;
+export default TranslationProgress;

@@ -34,9 +34,9 @@ function App() {
               {/* download page */}
               <Route path="/download/*" element={<DownloadPage />} />
 
-              <Route path="/login" element={<LoginPage />} />
+              <Route path="/login/*" element={<LoginPage />} />
 
-              <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/signup/*" element={<SignUpPage />} />
             </Routes>
           </BrowserRouter>
         </LanguageProvider>
