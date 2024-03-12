@@ -8,8 +8,8 @@ import { useHighContrast } from "./HighContrastMode";
 const AuthButtons: React.FC = () => {
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
-  const { isLoggedIn, setLoginStatus } = useAuth();
   const { isHighContrast } = useHighContrast();
+  const { isLoggedIn, logout } = useAuth();
 
   const handleLogout = async () => {
     try {
@@ -29,7 +29,8 @@ const AuthButtons: React.FC = () => {
       if (response.status === 200) {
         localStorage.removeItem("sessionId");
         localStorage.removeItem("userId");
-        setLoginStatus(false, null);
+
+        logout();
       }
     } catch (error) {
       console.error("Logout failed:", error);

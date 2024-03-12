@@ -1,85 +1,47 @@
-import React, {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-  useEffect,
-} from "react";
+import React, { createContext, useContext, useState, ReactNode } from "react";
 
 interface AuthContextType {
   isLoggedIn: boolean;
-  userId: string | null;
-  setLoginStatus: (loggedIn: boolean, userId: string | null) => void;
+  login: (loginId: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const fetchWithSession = async (
-  url: string,
-  options: RequestInit = {}
-) => {
-  const sessionId = localStorage.getItem("sessionId");
-
-  const headers = {
-    ...options.headers,
-    Authorization: sessionId ? `Bearer ${sessionId}` : "",
-  };
-
-  const response = await fetch(url, {
-    ...options,
-    headers,
-  });
-
-  return response;
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error("useAuth must be used within an AuthProvider");
+  return context;
 };
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [userId, setUserId] = useState<string | null>(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
-  useEffect(() => {
-    const checkLoginStatus = () => {
-      const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-      const userId = localStorage.getItem("userId");
-      setIsLoggedIn(loggedIn);
-      setUserId(userId);
-    };
+  const login = async (loginId: string, password: string) => {
+    const response = await fetch(`${apiUrl}/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ loginId, password }),
+    });
 
-    checkLoginStatus();
-  }, []);
-
-  const setLoginStatus = (
-    loggedIn: boolean,
-    userId: string | null,
-    sessionId?: string
-  ) => {
-    localStorage.setItem("isLoggedIn", loggedIn.toString());
-    if (loggedIn) {
-      localStorage.setItem("userId", userId || "");
-      if (sessionId) {
-        localStorage.setItem("sessionId", sessionId);
-      }
+    if (response.ok) {
+      setIsLoggedIn(true);
     } else {
-      localStorage.removeItem("userId");
-      localStorage.removeItem("sessionId");
+      throw new Error("Login failed");
     }
-    setIsLoggedIn(loggedIn);
-    setUserId(userId);
+  };
+
+  const logout = async () => {
+    setIsLoggedIn(false);
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, userId, setLoginStatus }}>
+    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
 };
