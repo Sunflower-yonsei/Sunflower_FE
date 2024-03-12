@@ -14,6 +14,25 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+export const fetchWithSession = async (
+  url: string,
+  options: RequestInit = {}
+) => {
+  const sessionId = localStorage.getItem("sessionId");
+
+  const headers = {
+    ...options.headers,
+    Authorization: sessionId ? `Bearer ${sessionId}` : "",
+  };
+
+  const response = await fetch(url, {
+    ...options,
+    headers,
+  });
+
+  return response;
+};
+
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
@@ -31,12 +50,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     checkLoginStatus();
   }, []);
 
-  const setLoginStatus = (loggedIn: boolean, userId: string | null) => {
+  const setLoginStatus = (
+    loggedIn: boolean,
+    userId: string | null,
+    sessionId?: string
+  ) => {
     localStorage.setItem("isLoggedIn", loggedIn.toString());
-    if (loggedIn && userId) {
-      localStorage.setItem("userId", userId);
+    if (loggedIn) {
+      localStorage.setItem("userId", userId || "");
+      if (sessionId) {
+        localStorage.setItem("sessionId", sessionId);
+      }
     } else {
       localStorage.removeItem("userId");
+      localStorage.removeItem("sessionId");
     }
     setIsLoggedIn(loggedIn);
     setUserId(userId);

@@ -9,7 +9,6 @@ import NavBar from "../components/NavBar";
 const LoginPage: React.FC = () => {
   const [loginId, setLoginId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [messageerror, setError] = useState<string>("");
   const { isHighContrast } = useHighContrast();
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
@@ -41,9 +40,13 @@ const LoginPage: React.FC = () => {
         { loginId, password },
         { withCredentials: true }
       );
-      if (response.status === 200) {
+      const sessionId = response.headers["sessionid"] as string | undefined;
+      if (sessionId) {
+        localStorage.setItem("sessionid", sessionId);
         setLoginStatus(true, loginId);
         navigate("/");
+      } else {
+        alert("sessionId not found in response");
       }
     } catch (error) {
       let errorMessage = "An unexpected error occurred.";
@@ -55,8 +58,7 @@ const LoginPage: React.FC = () => {
             break;
         }
       }
-      setError(errorMessage);
-      alert("Error during login: " + messageerror);
+      alert("Error during login: " + errorMessage);
     }
   };
 
@@ -109,7 +111,6 @@ const LoginPage: React.FC = () => {
             >
               Login
             </button>
-            {messageerror && <p>{messageerror}</p>}
           </form>
           <button
             className={`mt-4  ${

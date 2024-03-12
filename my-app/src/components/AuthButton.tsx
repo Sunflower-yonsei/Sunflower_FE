@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import { useLanguage } from "../LanguageContext";
@@ -10,10 +11,30 @@ const AuthButtons: React.FC = () => {
   const { isLoggedIn, setLoginStatus } = useAuth();
   const { isHighContrast } = useHighContrast();
 
-  const handleLogout = () => {
-    setLoginStatus(false, null);
-  };
+  const handleLogout = async () => {
+    try {
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const userId = localStorage.getItem("userId");
 
+      const response = await axios.post(
+        `${apiUrl}/logout`,
+        {
+          member: {
+            id: userId,
+          },
+        },
+        { withCredentials: true }
+      );
+
+      if (response.status === 200) {
+        localStorage.removeItem("sessionId");
+        localStorage.removeItem("userId");
+        setLoginStatus(false, null);
+      }
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
   return (
     <div className="flex justify-center space-x-4">
       {isLoggedIn ? (
