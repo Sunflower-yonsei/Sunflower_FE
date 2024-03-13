@@ -1,9 +1,9 @@
 import React, { useEffect, useState, FormEvent } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useHighContrast } from "./HighContrastMode";
+import { useHighContrast } from "../components/HighContrastMode";
 import { useLanguage } from "../LanguageContext";
-import NavBar from "./NavBar";
+import NavBar from "../components/NavBar";
 
 const SignUpPage: React.FC = () => {
   const [loginId, setLoginId] = useState<string>("");

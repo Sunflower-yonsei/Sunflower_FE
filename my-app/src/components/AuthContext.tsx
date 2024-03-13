@@ -1,63 +1,81 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  useEffect,
+} from "react";
+import { useCookies } from "react-cookie";
 
 interface AuthContextType {
   isLoggedIn: boolean;
-  setLoggedIn: (loggedIn: boolean) => void;
+  login: (loginId: string, password: string) => Promise<void>;
+  logout: () => void;
 }
 
-export const AuthContext = createContext<AuthContextType | null>(null);
-
-const SESSION_TIMEOUT = 10 * 60 * 1000;
-
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [isLoggedIn, setLoggedInState] = useState<boolean>(() => {
-    const isUserLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    const lastLoginTime = localStorage.getItem("lastLoginTime");
-    const isSessionExpired =
-      lastLoginTime &&
-      new Date().getTime() - Number(lastLoginTime) > SESSION_TIMEOUT;
-    return isUserLoggedIn && !isSessionExpired;
-  });
-
-  const setLoggedIn = (loggedIn: boolean) => {
-    localStorage.setItem("isLoggedIn", loggedIn.toString());
-    if (loggedIn) {
-      localStorage.setItem("lastLoginTime", new Date().getTime().toString());
-    } else {
-      localStorage.removeItem("lastLoginTime");
-    }
-    setLoggedInState(loggedIn);
-  };
-
-  useEffect(() => {
-    const updateLastLoginTime = () => {
-      if (isLoggedIn) {
-        localStorage.setItem("lastLoginTime", new Date().getTime().toString());
-      }
-    };
-
-    window.addEventListener("click", updateLastLoginTime);
-    window.addEventListener("keypress", updateLastLoginTime);
-
-    return () => {
-      window.removeEventListener("click", updateLastLoginTime);
-      window.removeEventListener("keypress", updateLastLoginTime);
-    };
-  }, [isLoggedIn]);
-
-  return (
-    <AuthContext.Provider value={{ isLoggedIn, setLoggedIn }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
+  if (!context) throw new Error("useAuth must be used within an AuthProvider");
   return context;
+};
+
+const usePersistentState = <T,>(key: string, defaultValue: T) => {
+  const [state, setState] = useState<T>(() => {
+    const storedValue = localStorage.getItem(key);
+    return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(state));
+  }, [key, state]);
+
+  return [state, setState] as const;
+};
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [cookies] = useCookies(["sessionId"]);
+  const [isLoggedIn, setIsLoggedIn] = usePersistentState<boolean>(
+    "isLoggedIn",
+    false
+  );
+
+  useEffect(() => {
+    const sessionExists = !!cookies["sessionId"];
+    setIsLoggedIn(sessionExists);
+  }, [cookies, setIsLoggedIn]);
+
+  const login = async (loginId: string, password: string) => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/login`,
+        { loginId, password },
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.status === 200) {
+        setIsLoggedIn(true);
+      } else {
+        console.error("Session Login not found");
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      throw error;
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
+  };
+
+  return (
+    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
