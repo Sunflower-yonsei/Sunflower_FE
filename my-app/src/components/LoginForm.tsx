@@ -13,7 +13,8 @@ const LoginForm: React.FC = () => {
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     try {
       await login(loginId, password);
       console.log("Login Success");
