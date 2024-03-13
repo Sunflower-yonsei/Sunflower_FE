@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { useHighContrast } from "../components/HighContrastMode";
 import { useLanguage } from "../LanguageContext";
 import NavBar from "../components/NavBar";
@@ -12,8 +11,6 @@ const LoginPage: React.FC = () => {
   const { isHighContrast } = useHighContrast();
   const { language } = useLanguage();
   const [announcement, setAnnouncement] = useState("");
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const message =
@@ -37,20 +34,12 @@ const LoginPage: React.FC = () => {
 
       <NavBar />
       <div
-        className={`w-full h-auto ${
+        className={`w-full h-200 ${
           isHighContrast ? "bg-black" : "bg-stone-200"
         } bottom-0 relative`}
       >
-        <LoginForm />
         <div className="flex flex-col items-center justify-center min-h-screen bg-stone-200">
-          <button
-            className={`mt-4  ${
-              isHighContrast ? "text-stone-800" : "text-[#FF6A3F]"
-            }  hover:underline`}
-            onClick={() => navigate("/signup")}
-          >
-            Don't have an account? Sign up
-          </button>
+          <LoginForm />
         </div>
       </div>
     </div>
