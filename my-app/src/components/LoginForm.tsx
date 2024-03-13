@@ -1,51 +1,43 @@
 import React, { useState } from "react";
-import { useAuth } from "./AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
 const LoginForm: React.FC = () => {
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
   const navigate = useNavigate();
+  const { login } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleLogin = async () => {
     try {
       await login(loginId, password);
-      console.log("Logged in");
-
+      console.log("Login Success");
       navigate("/");
     } catch (error) {
       console.error(error);
-      alert("Login failed");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="loginId">Login ID:</label>
+    <div>
+      <form>
         <input
           type="text"
-          id="loginId"
           value={loginId}
-          autoComplete="username"
           onChange={(e) => setLoginId(e.target.value)}
+          placeholder="ID"
+          autoComplete="on"
         />
-      </div>
-      <div>
-        <label htmlFor="password">Password:</label>
         <input
           type="password"
-          id="password"
           value={password}
-          autoComplete="current-password"
           onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          autoComplete="on"
         />
-      </div>
-      <button type="submit">Login</button>
-    </form>
+      </form>
+      <button onClick={handleLogin}>Login</button>
+    </div>
   );
 };
 

@@ -52,6 +52,7 @@ const FileUploadDragDrop: React.FC = () => {
   const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedFile(e.target.files[0]);
+      setState({ ...state, pdf: e.target.files[0] });
     }
   };
 

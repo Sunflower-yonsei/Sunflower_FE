@@ -1,9 +1,17 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import axios from "axios";
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  useEffect,
+} from "react";
+import { useCookies } from "react-cookie";
 
 interface AuthContextType {
   isLoggedIn: boolean;
   login: (loginId: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -14,27 +22,54 @@ export const useAuth = () => {
   return context;
 };
 
+const usePersistentState = <T,>(key: string, defaultValue: T) => {
+  const [state, setState] = useState<T>(() => {
+    const storedValue = localStorage.getItem(key);
+    return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(state));
+  }, [key, state]);
+
+  return [state, setState] as const;
+};
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const apiUrl = process.env.REACT_APP_API_URL;
+  const [cookies] = useCookies(["sessionId"]);
+  const [isLoggedIn, setIsLoggedIn] = usePersistentState<boolean>(
+    "isLoggedIn",
+    false
+  );
+
+  useEffect(() => {
+    const sessionExists = !!cookies["sessionId"];
+    setIsLoggedIn(sessionExists);
+  }, [cookies, setIsLoggedIn]);
 
   const login = async (loginId: string, password: string) => {
-    const response = await fetch(`${apiUrl}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ loginId, password }),
-    });
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/login`,
+        { loginId, password },
+        {
+          withCredentials: true,
+        }
+      );
 
-    if (response.ok) {
-      setIsLoggedIn(true);
-    } else {
-      throw new Error("Login failed");
+      if (response.status === 200) {
+        setIsLoggedIn(true);
+      } else {
+        console.error("Session Login not found");
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      throw error;
     }
   };
 
-  const logout = async () => {
+  const logout = () => {
+    localStorage.removeItem("isLoggedIn");
     setIsLoggedIn(false);
   };
 

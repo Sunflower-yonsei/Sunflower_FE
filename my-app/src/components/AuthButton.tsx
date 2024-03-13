@@ -1,6 +1,6 @@
 import React from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import { useAuth } from "./AuthContext";
 import { useLanguage } from "../LanguageContext";
 import { useHighContrast } from "./HighContrastMode";
@@ -14,28 +14,22 @@ const AuthButtons: React.FC = () => {
   const handleLogout = async () => {
     try {
       const apiUrl = process.env.REACT_APP_API_URL;
-      const userId = localStorage.getItem("userId");
-
-      const response = await axios.post(
+      await axios.post(
         `${apiUrl}/logout`,
+        {},
         {
-          member: {
-            id: userId,
-          },
-        },
-        { withCredentials: true }
+          withCredentials: true,
+        }
       );
 
-      if (response.status === 200) {
-        localStorage.removeItem("sessionId");
-        localStorage.removeItem("userId");
-
-        logout();
-      }
+      logout();
+      console.log("Logout success");
     } catch (error) {
       console.error("Logout failed:", error);
+      alert("Logout failed");
     }
   };
+
   return (
     <div className="flex justify-center space-x-4">
       {isLoggedIn ? (
@@ -47,37 +41,19 @@ const AuthButtons: React.FC = () => {
           >
             {language === "ko" ? "로그인이 완료되었습니다" : "Login Success"}
           </span>
-          <button
-            onClick={handleLogout}
-            className={`${textClassName} ${
-              isHighContrast ? "text-stone-800" : "text-white"
-            } `}
-          >
-            {language === "ko" ? "로그아웃하기" : "Logout"}
-          </button>
         </>
       ) : (
-        <>
+        <div>
           <Link to="/login">
-            <button
-              className={`${textClassName} ${
-                isHighContrast ? "text-yellow-300" : "text-neutral-800"
-              }`}
-            >
+            <button className={`...`}>
               {language === "ko" ? "로그인하기" : "Login"}
             </button>
           </Link>
-          <Link to="/signup">
-            <button
-              className={`${textClassName} ${
-                isHighContrast ? "text-yellow-300" : "text-neutral-800"
-              }`}
-            >
-              {language === "ko" ? "회원가입" : "Sign Up"}
-            </button>
-          </Link>
-        </>
+        </div>
       )}
+      <button onClick={handleLogout} className={`...`}>
+        {language === "ko" ? "로그아웃하기" : "Logout"}
+      </button>
     </div>
   );
 };
