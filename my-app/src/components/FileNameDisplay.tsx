@@ -25,10 +25,7 @@ const FileNameDisplay: React.FC<FileNameDisplayProps> = ({ fileId }) => {
         const response = await axios.get(`${apiUrl}/transcriptions/${fileId}`);
         const originalFileName = response.data.originalFileName;
 
-        const fileNameWithoutExtension = originalFileName
-          .split(".")
-          .slice(0, -1)
-          .join(".");
+        const fileNameWithoutExtension = originalFileName;
         setFileName(fileNameWithoutExtension);
       } catch (error) {
         console.error("파일 정보를 불러오는데 실패했습니다.", error);
