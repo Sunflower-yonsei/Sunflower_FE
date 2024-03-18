@@ -41,6 +41,9 @@ const AuthButtons: React.FC = () => {
           >
             {language === "ko" ? "로그인이 완료되었습니다" : "Login Success"}
           </span>
+          <button onClick={handleLogout} className={`...`}>
+            {language === "ko" ? "로그아웃하기" : "Logout"}
+          </button>
         </>
       ) : (
         <div>
@@ -51,9 +54,6 @@ const AuthButtons: React.FC = () => {
           </Link>
         </div>
       )}
-      <button onClick={handleLogout} className={`...`}>
-        {language === "ko" ? "로그아웃하기" : "Logout"}
-      </button>
     </div>
   );
 };

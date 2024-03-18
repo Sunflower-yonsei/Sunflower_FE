@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import { useLanguage } from "../LanguageContext";
 import { useHighContrast } from "../components/HighContrastMode";
+import KakaoLoginButton from "../components/KakaoLoginButton";
 
 const LoginForm: React.FC = () => {
   const [loginId, setLoginId] = useState("");
@@ -58,6 +59,8 @@ const LoginForm: React.FC = () => {
         >
           Login
         </button>
+        <br />
+        <KakaoLoginButton />
       </form>
 
       <button
