@@ -43,9 +43,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 
   useEffect(() => {
-    const sessionExists = !!cookies["sessionId"];
+    const sessionExists = !!cookies.sessionId;
     setIsLoggedIn(sessionExists);
-  }, [cookies, setIsLoggedIn]);
+  }, [cookies.sessionId, setIsLoggedIn]);
+
+  useEffect(() => {
+    const session = localStorage.getItem("isLoggedIn");
+    if (session === "true") {
+      setIsLoggedIn(true);
+    }
+  });
 
   const login = async (loginId: string, password: string) => {
     try {
