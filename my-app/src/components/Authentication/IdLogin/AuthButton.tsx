@@ -39,16 +39,16 @@ const AuthButtons: React.FC = () => {
               isHighContrast ? "text-yellow-300" : "text-neutral-800"
             }`}
           >
-            {language === "ko" ? "로그인이 완료되었습니다" : "Login Success"}
+            {language === "ko" ? "일반 로그인 성공" : "General Login Success"}
           </span>
-          <button onClick={handleLogout} className={`...`}>
+          <button onClick={handleLogout} className="...">
             {language === "ko" ? "로그아웃하기" : "Logout"}
           </button>
         </>
       ) : (
         <div>
           <Link to="/login">
-            <button className={`...`}>
+            <button className="...">
               {language === "ko" ? "로그인하기" : "Login"}
             </button>
           </Link>

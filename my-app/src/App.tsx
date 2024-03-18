@@ -12,14 +12,15 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import { AuthProvider } from "./components/Authentication/AuthContext";
 import { CookiesProvider } from "react-cookie";
+import KakaoRedirectHandler from "./components/Authentication/KakaoLogin/KakaoLoginHandling";
 
 function App() {
   return (
-    <CookiesProvider>
-      <AuthProvider>
-        <HighContrastModeProvider>
-          <LanguageProvider>
-            <BrowserRouter>
+    <BrowserRouter>
+      <CookiesProvider>
+        <AuthProvider>
+          <HighContrastModeProvider>
+            <LanguageProvider>
               <Routes>
                 {/* main page */}
                 <Route path="*" element={<MainPage />} />
@@ -42,12 +43,17 @@ function App() {
                 <Route path="/login/*" element={<LoginPage />} />
 
                 <Route path="/signup/*" element={<SignUpPage />} />
+
+                <Route
+                  path="/login/kakao/*"
+                  element={<KakaoRedirectHandler />}
+                />
               </Routes>
-            </BrowserRouter>
-          </LanguageProvider>
-        </HighContrastModeProvider>
-      </AuthProvider>
-    </CookiesProvider>
+            </LanguageProvider>
+          </HighContrastModeProvider>
+        </AuthProvider>
+      </CookiesProvider>
+    </BrowserRouter>
   );
 }
 
