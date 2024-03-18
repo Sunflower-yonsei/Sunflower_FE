@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
-import { useLanguage } from "../LanguageContext";
-import { useHighContrast } from "../components/HighContrastMode";
-import KakaoLoginButton from "../components/KakaoLoginButton";
+import { useLanguage } from "../../LanguageContext";
+import { useHighContrast } from "../Accessibility/HighContrastMode";
+import KakaoLoginButton from "./KakaoLogin/KakaoLoginButton";
 
 const LoginForm: React.FC = () => {
   const [loginId, setLoginId] = useState("");

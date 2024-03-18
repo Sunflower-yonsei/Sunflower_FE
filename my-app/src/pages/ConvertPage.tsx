@@ -4,9 +4,9 @@ import NavBar from "../components/NavBar";
 import BrailleDeco from "../components/BrailleDeco";
 import "../tailwind.css";
 import { useLanguage } from "../LanguageContext";
-import { useHighContrast } from "../components/HighContrastMode";
-import ContrastToggleButton from "../components/ContrastToggleButton";
-import LanguageToggleButton from "../components/LanguageToggleButton";
+import { useHighContrast } from "../components/Accessibility/HighContrastMode";
+import ContrastToggleButton from "../components/Accessibility/ContrastToggleButton";
+import LanguageToggleButton from "../components/Language/LanguageToggleButton";
 import FileUploadDragDrop from "../components/UploadFileDragDrop";
 
 const ConvertPage = () => {

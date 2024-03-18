@@ -1,8 +1,7 @@
 import React from "react";
 import { useHighContrast } from "./HighContrastMode";
-import { useLanguage } from "../LanguageContext";
+import { useLanguage } from "../../LanguageContext";
 import { useMediaQuery } from "react-responsive";
-
 
 const ContrastToggleButton = () => {
   const isMobile = useMediaQuery({ maxWidth: 790 });
@@ -10,9 +9,18 @@ const ContrastToggleButton = () => {
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
 
-  const normalMode = isMobile && language === "ko" ? "일반 모드" : language === "ko" ? "일반 모드로 변경" : "Normal Mode";
-  const highContrastMode = isMobile && language === "ko" ? "고대비 모드" : language === "ko" ? "고대비 모드로 변경" : "Contrast Mode";
-
+  const normalMode =
+    isMobile && language === "ko"
+      ? "일반 모드"
+      : language === "ko"
+      ? "일반 모드로 변경"
+      : "Normal Mode";
+  const highContrastMode =
+    isMobile && language === "ko"
+      ? "고대비 모드"
+      : language === "ko"
+      ? "고대비 모드로 변경"
+      : "Contrast Mode";
 
   return (
     <button

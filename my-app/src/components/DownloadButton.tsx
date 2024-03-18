@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useLanguage } from "../LanguageContext";
-import { useHighContrast } from "./HighContrastMode";
+import { useHighContrast } from "./Accessibility/HighContrastMode";
 import StatusMessage from "./StatusMessage";
 
 function removeExtension(fileName: string): string {

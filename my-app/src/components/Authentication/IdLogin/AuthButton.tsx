@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useAuth } from "./AuthContext";
-import { useLanguage } from "../LanguageContext";
-import { useHighContrast } from "./HighContrastMode";
+import { useAuth } from "../AuthContext";
+import { useLanguage } from "../../../LanguageContext";
+import { useHighContrast } from "../../Accessibility/HighContrastMode";
 
 const AuthButtons: React.FC = () => {
   const { language } = useLanguage();

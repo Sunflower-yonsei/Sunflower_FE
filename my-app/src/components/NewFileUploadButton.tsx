@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { Link } from "react-router-dom";
 import ConvertPage from "../pages/ConvertPage";
 import { useLanguage } from "../LanguageContext";
-import { useHighContrast } from "./HighContrastMode";
+import { useHighContrast } from "./Accessibility/HighContrastMode";
 
 const NewFileUpload = () => {
   const { language } = useLanguage();

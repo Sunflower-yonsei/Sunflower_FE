@@ -7,10 +7,10 @@ import UploadComplete from "./pages/UploadComplete";
 import ConvertComplete from "./pages/ConvertComplete";
 import DownloadPage from "./pages/DownloadPage";
 import { LanguageProvider } from "./LanguageContext";
-import { HighContrastModeProvider } from "./components/HighContrastMode";
+import { HighContrastModeProvider } from "./components/Accessibility/HighContrastMode";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
-import { AuthProvider } from "./components/AuthContext";
+import { AuthProvider } from "./components/Authentication/AuthContext";
 import { CookiesProvider } from "react-cookie";
 
 function App() {

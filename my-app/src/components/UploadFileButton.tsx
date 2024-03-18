@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import TranslationProgress from "./TranslationProgress";
 import { useLanguage } from "../LanguageContext";
-import messages from "./Messages";
-import { useHighContrast } from "../components/HighContrastMode";
+import messages from "./Language/Messages";
+import { useHighContrast } from "./Accessibility/HighContrastMode";
 import { useNavigate } from "react-router-dom";
 
 interface UploadFileButtonState {

@@ -3,13 +3,13 @@ import "../tailwind.css";
 import { Link, Route, Routes } from "react-router-dom";
 import MainPage from "../pages/MainPage";
 import { useMediaQuery } from "react-responsive";
-import LanguageToggleButton from "./LanguageToggleButton";
+import LanguageToggleButton from "./Language/LanguageToggleButton";
 import { useLanguage } from "../LanguageContext";
-import ContrastToggleButton from "./ContrastToggleButton";
-import { useHighContrast } from "./HighContrastMode";
+import ContrastToggleButton from "./Accessibility/ContrastToggleButton";
+import { useHighContrast } from "./Accessibility/HighContrastMode";
 import { MdMenu } from "react-icons/md";
-import { useAuth } from "./AuthContext";
-import AuthButtons from "./AuthButton";
+import { useAuth } from "./Authentication/AuthContext";
+import AuthButtons from "./Authentication/IdLogin/AuthButton";
 
 const NavBar = () => {
   const isMobile = useMediaQuery({ maxWidth: 800 });

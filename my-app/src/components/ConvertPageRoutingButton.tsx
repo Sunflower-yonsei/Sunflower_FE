@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import ConvertPage from "../pages/ConvertPage";
-import { useHighContrast } from "./HighContrastMode";
+import { useHighContrast } from "./Accessibility/HighContrastMode";
 
 const ConvertPageRoutingButton = () => {
   const { isHighContrast } = useHighContrast();

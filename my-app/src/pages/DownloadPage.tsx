@@ -5,11 +5,11 @@ import NavBar from "../components/NavBar";
 import NewFileUpload from "../components/NewFileUploadButton";
 import DownloadButton from "../components/DownloadButton";
 import { useLanguage } from "../LanguageContext";
-import { useHighContrast } from "../components/HighContrastMode";
+import { useHighContrast } from "../components/Accessibility/HighContrastMode";
 import { useLocation } from "react-router-dom";
 import FileNameDisplay from "../components/FileNameDisplay";
-import ContrastToggleButton from "../components/ContrastToggleButton";
-import LanguageToggleButton from "../components/LanguageToggleButton";
+import ContrastToggleButton from "../components/Accessibility/ContrastToggleButton";
+import LanguageToggleButton from "../components/Language/LanguageToggleButton";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -38,9 +38,11 @@ const DownloadPage = () => {
   }, [language]);
 
   return (
-    <div className={`w-full h-screen ${
-      isHighContrast ? "bg-black" : "bg-stone-200"
-    }`}>
+    <div
+      className={`w-full h-screen ${
+        isHighContrast ? "bg-black" : "bg-stone-200"
+      }`}
+    >
       <div aria-live="polite" className="sr-only">
         {announcement}
       </div>
@@ -103,17 +105,15 @@ const DownloadPage = () => {
               <FileNameDisplay fileId={fileId} />
               <DownloadButton />
               <NewFileUpload />
-              
             </div>
-            
           </div>
           <br />
-            {isMobile && (
-              <div className="transform -translate-y-1/2 flex flex-row justify-center gap-4">
-                <ContrastToggleButton />
-                <LanguageToggleButton />
-              </div>
-            )}
+          {isMobile && (
+            <div className="transform -translate-y-1/2 flex flex-row justify-center gap-4">
+              <ContrastToggleButton />
+              <LanguageToggleButton />
+            </div>
+          )}
         </div>
       </div>
       <BrailleDeco />

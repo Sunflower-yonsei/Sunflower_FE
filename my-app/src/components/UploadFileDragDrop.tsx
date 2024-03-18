@@ -1,10 +1,10 @@
 import React, { useState, useRef } from "react";
 import { useLanguage } from "../LanguageContext";
-import { useHighContrast } from "./HighContrastMode";
+import { useHighContrast } from "./Accessibility/HighContrastMode";
 import { useNavigate } from "react-router-dom";
 import TranslationProgress from "./TranslationProgress";
 import axios from "axios";
-import messages from "./Messages";
+import messages from "./Language/Messages";
 
 interface UploadFileButtonState {
   title: string;

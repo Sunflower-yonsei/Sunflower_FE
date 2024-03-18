@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLanguage } from "../LanguageContext";
-import { useHighContrast } from "./HighContrastMode";
+import { useHighContrast } from "./Accessibility/HighContrastMode";
 
 interface FileNameDisplayProps {
   fileId: string | null;

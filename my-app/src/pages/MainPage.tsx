@@ -5,24 +5,27 @@ import BrailleDeco from "../components/BrailleDeco";
 import "../tailwind.css";
 import ConvertPageRoutingButton from "../components/ConvertPageRoutingButton";
 import { useLanguage } from "../LanguageContext";
-import { useHighContrast } from "../components/HighContrastMode";
-import ContrastToggleButton from "../components/ContrastToggleButton";
-import LanguageToggleButton from "../components/LanguageToggleButton";
+import { useHighContrast } from "../components/Accessibility/HighContrastMode";
+import ContrastToggleButton from "../components/Accessibility/ContrastToggleButton";
+import LanguageToggleButton from "../components/Language/LanguageToggleButton";
 
 const MainPage = () => {
   const isMobile = useMediaQuery({ maxWidth: 800 });
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
   const { isHighContrast } = useHighContrast();
-  const [announcement, setAnnouncement] = useState('');
+  const [announcement, setAnnouncement] = useState("");
 
   // Screen Reader Message Setting
   useEffect(() => {
-    const message = language === 'ko' ? 'Sunny Braille 메인 페이지입니다' : 'This is the main page of Sunny Braille';
+    const message =
+      language === "ko"
+        ? "Sunny Braille 메인 페이지입니다"
+        : "This is the main page of Sunny Braille";
     setAnnouncement(message);
 
     const timer = setTimeout(() => {
-      setAnnouncement('');
+      setAnnouncement("");
     }, 1000);
 
     return () => clearTimeout(timer);
@@ -198,12 +201,12 @@ const MainPage = () => {
             )}
           </div>
           <br />
-            {isMobile && (
-              <div className="transform -translate-y-1/2 flex flex-row justify-center gap-4">
-                <ContrastToggleButton />
-                <LanguageToggleButton />
-              </div>
-            )}
+          {isMobile && (
+            <div className="transform -translate-y-1/2 flex flex-row justify-center gap-4">
+              <ContrastToggleButton />
+              <LanguageToggleButton />
+            </div>
+          )}
         </div>
       </div>
       <BrailleDeco />
