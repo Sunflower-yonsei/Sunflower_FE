@@ -10,9 +10,9 @@ import { LanguageProvider } from "./LanguageContext";
 import { HighContrastModeProvider } from "./components/Accessibility/HighContrastMode";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
-import { AuthProvider } from "./components/Authentication/AuthContext";
+import { AuthProvider } from "./components/Authentication/IdLogin/AuthContext";
 import { CookiesProvider } from "react-cookie";
-import KakaoRedirectHandler from "./components/Authentication/KakaoLogin/KakaoLoginHandling";
+import KakaoRedirectHandler from "./components/Authentication/KakaoLogin/KakaoLoginHandler";
 
 function App() {
   return (

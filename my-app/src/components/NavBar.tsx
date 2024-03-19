@@ -8,8 +8,8 @@ import { useLanguage } from "../LanguageContext";
 import ContrastToggleButton from "./Accessibility/ContrastToggleButton";
 import { useHighContrast } from "./Accessibility/HighContrastMode";
 import { MdMenu } from "react-icons/md";
-import { useAuth } from "./Authentication/AuthContext";
-import AuthButtons from "./Authentication/IdLogin/AuthButton";
+import { useAuth } from "./Authentication/IdLogin/AuthContext";
+import AuthButtons from "./Authentication/AuthButton";
 
 const NavBar = () => {
   const isMobile = useMediaQuery({ maxWidth: 800 });

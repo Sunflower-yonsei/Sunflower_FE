@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { setKakaoLoginStatus } from "./Kauth";
 
 const KakaoLoginHandler: React.FC = () => {
   const navigate = useNavigate();
@@ -18,10 +19,12 @@ const KakaoLoginHandler: React.FC = () => {
       )
         .then((response) => response.json())
         .then((data) => {
+          setKakaoLoginStatus(true);
           navigate("/");
         })
         .catch((error) => {
           console.error("Login failed:", error);
+          alert("Login failed");
         });
     }
   }, [navigate]);

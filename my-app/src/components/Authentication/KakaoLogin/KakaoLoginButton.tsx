@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // React Router v6에서 사용
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../../LanguageContext";
 
 const KakaoLoginButton: React.FC = () => {
