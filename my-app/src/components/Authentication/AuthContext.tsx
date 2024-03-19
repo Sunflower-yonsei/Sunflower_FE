@@ -68,9 +68,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setIsLoggedIn(true);
       } else {
         console.error("Session Login not found");
+        alert("Session Login not found");
       }
     } catch (error) {
       console.error("Login failed:", error);
+      alert("Login failed");
       throw error;
     }
   };
@@ -78,6 +80,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     localStorage.removeItem("isLoggedIn");
     setIsLoggedIn(false);
+    alert("Logout success");
   };
 
   return (
