@@ -17,10 +17,14 @@ const KakaoLoginHandler: React.FC = () => {
           credentials: "include",
         }
       )
-        .then((response) => response.json())
-        .then((data) => {
-          setKakaoLoginStatus(true);
-          navigate("/");
+        .then((response) => {
+          if (response.ok) {
+            setKakaoLoginStatus(true);
+            window.close();
+          } else {
+            console.error("Session login failed");
+            alert("Session login failed");
+          }
         })
         .catch((error) => {
           console.error("Login failed:", error);

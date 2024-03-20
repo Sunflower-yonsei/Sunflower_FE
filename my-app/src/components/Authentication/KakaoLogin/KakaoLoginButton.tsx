@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../../LanguageContext";
+import { getKakaoLoginStatus } from "./Kauth";
 
 const KakaoLoginButton: React.FC = () => {
   const navigate = useNavigate();
@@ -11,23 +12,22 @@ const KakaoLoginButton: React.FC = () => {
   const handleLogin = () => {
     const loginWindow = window.open(`${apiUrl}/login/kakao`);
 
-    if (loginWindow) {
-      const messageListener = (event: { origin: string; data: string }) => {
-        if (
-          event.origin === "https://www.sunnybraille.com" &&
-          event.data === "loginSuccess"
-        ) {
-          navigate("/");
-          window.removeEventListener("message", messageListener);
+    const checkLoginStatus = setInterval(() => {
+      if (getKakaoLoginStatus()) {
+        clearInterval(checkLoginStatus);
+        navigate("/");
+        if (loginWindow) {
+          loginWindow.close();
         }
-      };
+      }
+    }, 1000);
 
-      window.addEventListener("message", messageListener);
-    } else {
-      console.error(
-        "Unable to open the login window. Please check your popup settings."
-      );
-    }
+    window.onfocus = () => {
+      clearInterval(checkLoginStatus);
+      if (getKakaoLoginStatus()) {
+        navigate("/");
+      }
+    };
   };
 
   return (
