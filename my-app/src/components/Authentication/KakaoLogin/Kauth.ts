@@ -1,4 +1,4 @@
-import { useCookies } from "react-cookie";
+import { CookieSetOptions } from "universal-cookie";
 
 export const setKakaoLoginStatus = (status: boolean) => {
   localStorage.setItem("isKakaoLoggedIn", JSON.stringify(status));
@@ -9,8 +9,9 @@ export const getKakaoLoginStatus = (): boolean => {
   return status ? JSON.parse(status) : false;
 };
 
-export const resetKakaoLoginStatus = () => {
-  const [, , removeCookie] = useCookies(["sessionId"]);
-  removeCookie("sessionId");
+export const resetKakaoLoginStatus = (
+  removeCookieFunction: (name: string, options?: CookieSetOptions) => void
+) => {
+  removeCookieFunction("sessionId", { path: "/" });
   localStorage.removeItem("isKakaoLoggedIn");
 };

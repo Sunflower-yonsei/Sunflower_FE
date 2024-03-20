@@ -5,6 +5,7 @@ import { useAuth } from "./IdLogin/AuthContext";
 import { useLanguage } from "../../LanguageContext";
 import { useHighContrast } from "../Accessibility/HighContrastMode";
 import { getKakaoLoginStatus, resetKakaoLoginStatus } from "./KakaoLogin/Kauth";
+import { useCookies } from "react-cookie";
 
 const AuthButtons: React.FC = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const AuthButtons: React.FC = () => {
   const { isHighContrast } = useHighContrast();
   const { isLoggedIn, logout } = useAuth();
   const [isKakaoLoggedIn, setIsKakaoLoggedIn] = useState(false);
+  const [, , removeCookie] = useCookies();
 
   useEffect(() => {
     setIsKakaoLoggedIn(getKakaoLoginStatus());
@@ -27,7 +29,7 @@ const AuthButtons: React.FC = () => {
           {},
           { withCredentials: true }
         );
-        resetKakaoLoginStatus();
+        resetKakaoLoginStatus(() => removeCookie("sessionId"));
       } else {
         await axios.post(`${apiUrl}/logout`, {}, { withCredentials: true });
         logout();
