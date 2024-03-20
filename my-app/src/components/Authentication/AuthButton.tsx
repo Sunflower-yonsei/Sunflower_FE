@@ -23,20 +23,18 @@ const AuthButtons: React.FC = () => {
   const handleLogout = async () => {
     try {
       const apiUrl = process.env.REACT_APP_API_URL;
+      await axios.post(`${apiUrl}/logout`, {}, { withCredentials: true });
+
       if (isKakaoLoggedIn) {
-        await axios.post(
-          `${apiUrl}/logout/kakao`,
-          {},
-          { withCredentials: true }
-        );
         resetKakaoLoginStatus(() => removeCookie("sessionId"));
       } else {
-        await axios.post(`${apiUrl}/logout`, {}, { withCredentials: true });
         logout();
       }
+
       console.log("Logout success");
       alert("Logout success");
       navigate("/");
+      window.location.reload();
     } catch (error) {
       console.error("Logout failed:", error);
       alert("Logout failed");

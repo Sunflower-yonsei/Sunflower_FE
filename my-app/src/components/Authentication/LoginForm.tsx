@@ -23,6 +23,9 @@ const LoginForm: React.FC = () => {
     } catch (error) {
       console.error(error);
     }
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
 
   return (
