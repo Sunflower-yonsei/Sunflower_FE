@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "./IdLogin/AuthContext";
 import { useLanguage } from "../../LanguageContext";
@@ -7,6 +7,7 @@ import { useHighContrast } from "../Accessibility/HighContrastMode";
 import { getKakaoLoginStatus, resetKakaoLoginStatus } from "./KakaoLogin/Kauth";
 
 const AuthButtons: React.FC = () => {
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
   const { isHighContrast } = useHighContrast();
@@ -20,19 +21,20 @@ const AuthButtons: React.FC = () => {
   const handleLogout = async () => {
     try {
       const apiUrl = process.env.REACT_APP_API_URL;
-      const logoutEndpoint = isKakaoLoggedIn ? "/logout/kakao" : "/logout";
-
-      await axios.post(
-        `${apiUrl}${logoutEndpoint}`,
-        {},
-        { withCredentials: true }
-      );
-
-      logout();
-      resetKakaoLoginStatus();
-      setIsKakaoLoggedIn(false);
+      if (isKakaoLoggedIn) {
+        await axios.post(
+          `${apiUrl}/logout/kakao`,
+          {},
+          { withCredentials: true }
+        );
+        resetKakaoLoginStatus();
+      } else {
+        await axios.post(`${apiUrl}/logout`, {}, { withCredentials: true });
+        logout();
+      }
       console.log("Logout success");
       alert("Logout success");
+      navigate("/");
     } catch (error) {
       console.error("Logout failed:", error);
       alert("Logout failed");

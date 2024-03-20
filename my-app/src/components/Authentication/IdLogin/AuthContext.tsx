@@ -37,6 +37,7 @@ const usePersistentState = <T,>(key: string, defaultValue: T) => {
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [cookies] = useCookies(["sessionId"]);
+  const [, , removeCookie] = useCookies(["sessionId"]);
   const [isLoggedIn, setIsLoggedIn] = usePersistentState<boolean>(
     "isLoggedIn",
     false
@@ -80,6 +81,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     localStorage.removeItem("isLoggedIn");
     setIsLoggedIn(false);
+    removeCookie("sessionId", { path: "/" });
     alert("Logout success");
   };
 

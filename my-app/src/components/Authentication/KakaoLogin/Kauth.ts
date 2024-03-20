@@ -1,3 +1,5 @@
+import { useCookies } from "react-cookie";
+
 export const setKakaoLoginStatus = (status: boolean) => {
   localStorage.setItem("isKakaoLoggedIn", JSON.stringify(status));
 };
@@ -8,5 +10,7 @@ export const getKakaoLoginStatus = (): boolean => {
 };
 
 export const resetKakaoLoginStatus = () => {
+  const [, , removeCookie] = useCookies(["sessionId"]);
+  removeCookie("sessionId");
   localStorage.removeItem("isKakaoLoggedIn");
 };
