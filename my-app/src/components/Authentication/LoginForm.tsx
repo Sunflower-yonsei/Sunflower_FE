@@ -19,7 +19,7 @@ const LoginForm: React.FC = () => {
     try {
       await login(loginId, password);
       console.log("Login Success");
-      navigate("/");
+      navigate("/", { replace: true });
     } catch (error) {
       console.error(error);
     }
@@ -60,8 +60,8 @@ const LoginForm: React.FC = () => {
           Login
         </button>
         <br />
-        <KakaoLoginButton />
       </form>
+      <KakaoLoginButton />
 
       <button
         className={`mt-4 ${

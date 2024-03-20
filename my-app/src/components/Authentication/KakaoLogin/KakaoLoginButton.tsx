@@ -15,7 +15,6 @@ const KakaoLoginButton: React.FC = () => {
     const checkLoginStatus = setInterval(() => {
       if (getKakaoLoginStatus()) {
         clearInterval(checkLoginStatus);
-        navigate("/");
         if (loginWindow) {
           loginWindow.close();
         }
@@ -25,7 +24,7 @@ const KakaoLoginButton: React.FC = () => {
     window.onfocus = () => {
       clearInterval(checkLoginStatus);
       if (getKakaoLoginStatus()) {
-        navigate("/");
+        navigate("/", { replace: true });
       }
     };
   };
@@ -33,7 +32,7 @@ const KakaoLoginButton: React.FC = () => {
   return (
     <button
       onClick={handleLogin}
-      className={`flex w-full h-[50px] justify-center items-center bg-transparent font-bold py-2 px-4 mb-4 rounded overflow-hidden relative ${textClassName}`}
+      className={`flex w-[400px] h-[50px] justify-center items-center bg-transparent font-bold py-2 px-4 mb-4 rounded overflow-hidden relative ${textClassName}`}
     >
       <img
         src={`/kakao_login/${
