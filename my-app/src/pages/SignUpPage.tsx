@@ -1,7 +1,7 @@
 import React, { useEffect, useState, FormEvent } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useHighContrast } from "../components/HighContrastMode";
+import { useHighContrast } from "../components/Accessibility/HighContrastMode";
 import { useLanguage } from "../LanguageContext";
 import NavBar from "../components/NavBar";
 

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "./AuthContext";
-import { useLanguage } from "../LanguageContext";
-import { useHighContrast } from "../components/HighContrastMode";
+import { useAuth } from "./IdLogin/AuthContext";
+import { useLanguage } from "../../LanguageContext";
+import { useHighContrast } from "../Accessibility/HighContrastMode";
+import KakaoLoginButton from "./KakaoLogin/KakaoLoginButton";
 
 const LoginForm: React.FC = () => {
   const [loginId, setLoginId] = useState("");
@@ -18,7 +19,7 @@ const LoginForm: React.FC = () => {
     try {
       await login(loginId, password);
       console.log("Login Success");
-      navigate("/");
+      navigate("/", { replace: true });
     } catch (error) {
       console.error(error);
     }
@@ -58,7 +59,9 @@ const LoginForm: React.FC = () => {
         >
           Login
         </button>
+        <br />
       </form>
+      <KakaoLoginButton />
 
       <button
         className={`mt-4 ${

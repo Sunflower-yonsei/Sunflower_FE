@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useHighContrast } from "../components/HighContrastMode";
+import { useHighContrast } from "../components/Accessibility/HighContrastMode";
 import { useLanguage } from "../LanguageContext";
 import NavBar from "../components/NavBar";
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../components/Authentication/LoginForm";
 
 axios.defaults.withCredentials = true;
 
