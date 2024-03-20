@@ -44,16 +44,30 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 
   useEffect(() => {
+    const setupAxiosInterceptors = () => {
+      const responseInterceptor = axios.interceptors.response.use(
+        (response) => response,
+        (error) => {
+          if (error.response && error.response.status === 401) {
+            logout();
+          }
+          return Promise.reject(error);
+        }
+      );
+
+      return () => {
+        axios.interceptors.response.eject(responseInterceptor);
+      };
+    };
+
+    const cleanUpInterceptor = setupAxiosInterceptors();
+    return () => cleanUpInterceptor();
+  }, []);
+
+  useEffect(() => {
     const sessionExists = !!cookies.sessionId;
     setIsLoggedIn(sessionExists);
   }, [cookies.sessionId, setIsLoggedIn]);
-
-  useEffect(() => {
-    const session = localStorage.getItem("isLoggedIn");
-    if (session === "true") {
-      setIsLoggedIn(true);
-    }
-  });
 
   const login = async (loginId: string, password: string) => {
     try {
