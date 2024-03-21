@@ -4,7 +4,7 @@ import axios from "axios";
 import { useAuth } from "./IdLogin/AuthContext";
 import { useLanguage } from "../../LanguageContext";
 import { useHighContrast } from "../Accessibility/HighContrastMode";
-import { getKakaoLoginStatus, resetKakaoLoginStatus } from "./KakaoLogin/Kauth";
+import { useKakaoAuth } from "./KakaoLogin/KAuthContext";
 import { useCookies } from "react-cookie";
 
 const AuthButtons: React.FC = () => {
@@ -15,6 +15,7 @@ const AuthButtons: React.FC = () => {
   const { isLoggedIn, logout } = useAuth();
   const [isKakaoLoggedIn, setIsKakaoLoggedIn] = useState(false);
   const [, , removeCookie] = useCookies();
+  const { getKakaoLoginStatus, resetKakaoLoginStatus } = useKakaoAuth();
 
   useEffect(() => {
     setIsKakaoLoggedIn(getKakaoLoginStatus());
@@ -25,8 +26,9 @@ const AuthButtons: React.FC = () => {
       const apiUrl = process.env.REACT_APP_API_URL;
       await axios.post(`${apiUrl}/logout`, {}, { withCredentials: true });
 
-      if (isKakaoLoggedIn) {
-        resetKakaoLoginStatus(() => removeCookie("sessionId"));
+      if (getKakaoLoginStatus()) {
+        resetKakaoLoginStatus();
+        removeCookie("sessionId", { path: "/" });
       } else {
         logout();
       }

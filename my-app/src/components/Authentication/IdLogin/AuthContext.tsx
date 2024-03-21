@@ -24,12 +24,12 @@ export const useAuth = () => {
 
 const usePersistentState = <T,>(key: string, defaultValue: T) => {
   const [state, setState] = useState<T>(() => {
-    const storedValue = localStorage.getItem(key);
+    const storedValue = sessionStorage.getItem(key);
     return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
   });
 
   useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(state));
+    sessionStorage.setItem(key, JSON.stringify(state));
   }, [key, state]);
 
   return [state, setState] as const;
@@ -44,30 +44,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 
   useEffect(() => {
-    const setupAxiosInterceptors = () => {
-      const responseInterceptor = axios.interceptors.response.use(
-        (response) => response,
-        (error) => {
-          if (error.response && error.response.status === 401) {
-            logout();
-          }
-          return Promise.reject(error);
-        }
-      );
-
-      return () => {
-        axios.interceptors.response.eject(responseInterceptor);
-      };
-    };
-
-    const cleanUpInterceptor = setupAxiosInterceptors();
-    return () => cleanUpInterceptor();
-  }, []);
-
-  useEffect(() => {
     const sessionExists = !!cookies.sessionId;
     setIsLoggedIn(sessionExists);
   }, [cookies.sessionId, setIsLoggedIn]);
+
+  useEffect(() => {
+    const session = sessionStorage.getItem("isLoggedIn");
+    if (session === "true") {
+      setIsLoggedIn(true);
+    }
+  });
 
   const login = async (loginId: string, password: string) => {
     try {
@@ -93,7 +79,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("isLoggedIn");
     setIsLoggedIn(false);
     removeCookie("sessionId", { path: "/" });
     alert("Logout success");
