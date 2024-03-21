@@ -24,12 +24,12 @@ export const useAuth = () => {
 
 const usePersistentState = <T,>(key: string, defaultValue: T) => {
   const [state, setState] = useState<T>(() => {
-    const storedValue = localStorage.getItem(key);
+    const storedValue = sessionStorage.getItem(key);
     return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
   });
 
   useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(state));
+    sessionStorage.setItem(key, JSON.stringify(state));
   }, [key, state]);
 
   return [state, setState] as const;
@@ -37,6 +37,7 @@ const usePersistentState = <T,>(key: string, defaultValue: T) => {
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [cookies] = useCookies(["sessionId"]);
+  const [, , removeCookie] = useCookies(["sessionId"]);
   const [isLoggedIn, setIsLoggedIn] = usePersistentState<boolean>(
     "isLoggedIn",
     false
@@ -48,7 +49,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [cookies.sessionId, setIsLoggedIn]);
 
   useEffect(() => {
-    const session = localStorage.getItem("isLoggedIn");
+    const session = sessionStorage.getItem("isLoggedIn");
     if (session === "true") {
       setIsLoggedIn(true);
     }
@@ -78,8 +79,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("isLoggedIn");
     setIsLoggedIn(false);
+    removeCookie("sessionId", { path: "/" });
     alert("Logout success");
   };
 

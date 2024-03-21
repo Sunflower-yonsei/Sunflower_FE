@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { setKakaoLoginStatus } from "./Kauth";
+import { useKakaoAuth } from "./KAuthContext";
 
 const KakaoLoginHandler: React.FC = () => {
   const navigate = useNavigate();
-
+  const { setKakaoLoginStatus } = useKakaoAuth();
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
@@ -20,7 +20,7 @@ const KakaoLoginHandler: React.FC = () => {
         .then((response) => {
           if (response.ok) {
             setKakaoLoginStatus(true);
-            window.close();
+            navigate("/");
           } else {
             console.error("Session login failed");
             alert("Session login failed");
@@ -31,8 +31,7 @@ const KakaoLoginHandler: React.FC = () => {
           alert("Login failed");
         });
     }
-  }, [navigate]);
-
+  }, [navigate, setKakaoLoginStatus]);
   return <div>Loading...</div>;
 };
 

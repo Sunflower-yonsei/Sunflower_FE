@@ -1,13 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../../LanguageContext";
-import { getKakaoLoginStatus } from "./Kauth";
+import { useKakaoAuth } from "./KAuthContext";
 
 const KakaoLoginButton: React.FC = () => {
+  const { setKakaoLoginStatus, getKakaoLoginStatus } = useKakaoAuth(); // Use functions from context
   const navigate = useNavigate();
   const { language } = useLanguage();
   const textClassName = language === "ko" ? "font-kor" : "font-eng";
   const apiUrl = process.env.REACT_APP_API_URL;
+
+  useEffect(() => {
+    const handleFocus = () => {
+      if (getKakaoLoginStatus()) {
+        navigate("/", { replace: true });
+      }
+    };
+
+    window.addEventListener("focus", handleFocus);
+
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, [navigate, getKakaoLoginStatus]);
 
   const handleLogin = () => {
     const loginWindow = window.open(`${apiUrl}/login/kakao`);
@@ -15,18 +30,11 @@ const KakaoLoginButton: React.FC = () => {
     const checkLoginStatus = setInterval(() => {
       if (getKakaoLoginStatus()) {
         clearInterval(checkLoginStatus);
-        if (loginWindow) {
-          loginWindow.close();
-        }
-      }
-    }, 1000);
-
-    window.onfocus = () => {
-      clearInterval(checkLoginStatus);
-      if (getKakaoLoginStatus()) {
+        loginWindow?.close();
+        setKakaoLoginStatus(true);
         navigate("/", { replace: true });
       }
-    };
+    }, 1000);
   };
 
   return (
