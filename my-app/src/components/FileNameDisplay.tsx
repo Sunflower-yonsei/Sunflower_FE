@@ -22,8 +22,10 @@ const FileNameDisplay: React.FC<FileNameDisplayProps> = ({ fileId }) => {
 
       try {
         const apiUrl = process.env.REACT_APP_API_URL; // API 주소
-        const response = await axios.get(`${apiUrl}/translations/${fileId}`);
-        const originalFileName = response.data.originalFileName;
+        const response = await axios.get(
+          `${apiUrl}/translations/${fileId}/name`
+        );
+        const originalFileName = response.data.name;
 
         const fileNameWithoutExtension = originalFileName;
         setFileName(fileNameWithoutExtension);

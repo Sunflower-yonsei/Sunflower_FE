@@ -34,9 +34,9 @@ export const KakaoAuthProvider = ({ children }: { children: ReactNode }) => {
     setIsKakaoLoggedIn(sessionExists);
   }, [cookies.sessionId]);
 
-  const setKakaoLoginStatus = (status: boolean) => {
-    setIsKakaoLoggedIn(status);
-    sessionStorage.setItem("isKakaoLoggedIn", JSON.stringify(status));
+  const setKakaoLoginStatus = () => {
+    setIsKakaoLoggedIn(true);
+    sessionStorage.setItem("isKakaoLoggedIn", "true");
   };
 
   const getKakaoLoginStatus = (): boolean => {

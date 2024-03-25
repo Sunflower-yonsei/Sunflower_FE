@@ -20,9 +20,8 @@ const KakaoLoginHandler: React.FC = () => {
         .then((response) => {
           if (response.ok) {
             setKakaoLoginStatus(true);
-            navigate("/");
           } else {
-            console.error("Session login failed");
+            console.error("Session login failed", response);
             alert("Session login failed");
           }
         })

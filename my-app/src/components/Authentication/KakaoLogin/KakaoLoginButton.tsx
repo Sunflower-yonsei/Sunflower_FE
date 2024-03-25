@@ -25,14 +25,13 @@ const KakaoLoginButton: React.FC = () => {
   }, [navigate, getKakaoLoginStatus]);
 
   const handleLogin = () => {
-    const loginWindow = window.open(`${apiUrl}/login/kakao`);
+    window.location.href = `${apiUrl}/login/kakao`;
 
     const checkLoginStatus = setInterval(() => {
       if (getKakaoLoginStatus()) {
         clearInterval(checkLoginStatus);
-        loginWindow?.close();
         setKakaoLoginStatus(true);
-        navigate("/", { replace: true });
+        window.location.replace("https://www.sunnybraille.com");
       }
     }, 1000);
   };
