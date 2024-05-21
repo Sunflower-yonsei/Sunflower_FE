@@ -22,6 +22,8 @@ const FileNameDisplay: React.FC<FileNameDisplayProps> = ({ fileId }) => {
 
       try {
         const apiUrl = process.env.REACT_APP_API_URL; // API 주소
+
+
         const response = await axios.get(`${apiUrl}/transcriptions/${fileId}`);
         const originalFileName = response.data.originalFileName;
 
